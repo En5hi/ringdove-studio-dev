@@ -20,12 +20,12 @@ const sectionId = order === 1 ? 'work' : undefined;
 
 <section class="plate work" id={sectionId} data-section={sectionLabel} data-page={pageLabel}>
   <div class:list={['layout', variant === 'right' && 'reversed']}>
-    {image === 'spire' && <SpireImage />}
-    {image === 'lattice' && <LatticeImage />}
-    {image === 'morrow' && <MorrowImage />}
-    {image === 'halftone' && <HalftoneImage />}
+    {image === 'spire' && <SpireImage class="reveal" />}
+    {image === 'lattice' && <LatticeImage class="reveal" />}
+    {image === 'morrow' && <MorrowImage class="reveal" />}
+    {image === 'halftone' && <HalftoneImage class="reveal" />}
 
-    <div class="copy">
+    <div class="copy reveal">
       <span class="pretitle">{pretitle}</span>
       <h2 set:html={title} />
       <p class="lede" set:html={lede} />

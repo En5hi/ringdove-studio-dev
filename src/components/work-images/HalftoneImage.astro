@@ -1,7 +1,11 @@
 ---
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
 ---
 
-<div class="image img-halftone"></div>
+<div class:list={['image', 'img-halftone', className]}></div>
 
 <style>
   .image {
@@ -12,7 +16,10 @@
     border: 1px solid var(--rule-soft);
     position: relative;
     overflow: hidden;
-    transition: transform 800ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition:
+      transform 800ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      opacity 800ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      filter 800ms cubic-bezier(0.2, 0.8, 0.2, 1);
   }
   .image:hover {
     transform: scale(1.005);
