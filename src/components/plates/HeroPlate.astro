@@ -56,23 +56,27 @@ const sectionLabel = SITE.hero.headline.replace(/\.<\/em>$/, '</em>');
     font-weight: 300;
   }
 
-  /* Word-by-word rise on first paint. ~80ms stagger × 6 + 620ms ≈ 1100ms total. */
+  /* Word-by-word rise on first paint, resolving from out-of-focus into focus.
+     ~80ms stagger × 6 + 720ms ≈ 1200ms total. */
   .w {
     display: inline-block;
     opacity: 0;
     transform: translateY(40px);
-    animation: word-rise 620ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    filter: blur(8px);
+    animation: word-rise 720ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
     animation-delay: var(--d, 0ms);
-    will-change: opacity, transform;
+    will-change: opacity, transform, filter;
   }
   @keyframes word-rise {
     from {
       opacity: 0;
       transform: translateY(40px);
+      filter: blur(8px);
     }
     to {
       opacity: 1;
       transform: translateY(0);
+      filter: blur(0);
     }
   }
 
