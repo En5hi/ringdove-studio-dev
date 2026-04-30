@@ -1,0 +1,115 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../lib/site';
+---
+
+<Base
+  title="Privacy"
+  description="A short note on the data practices of ringdove.studio."
+>
+  <section class="plate doc" data-section="Privacy" data-page="— / VI">
+    <article class="inner">
+      <header>
+        <span class="kicker">A short note</span>
+        <h1>On <em>privacy.</em></h1>
+      </header>
+
+      <p>
+        This site is intentionally quiet about its visitors. It sets no cookies, runs no analytics,
+        and ships no third-party scripts. Pages are static; the server logs that any web host keeps
+        are the only record of a visit, and we do not read them for marketing purposes.
+      </p>
+
+      <p>
+        The contact link is a plain <em>mailto:</em> — when you click it, your mail client opens with
+        <a href={`mailto:${SITE.email}`}>{SITE.email}</a> already in the To field. Nothing is sent until
+        you press send. Mail you choose to send sits in our inbox until we have replied and a
+        reasonable interval has passed; we keep correspondence we need for the work, and we do not
+        share it with anyone outside the studio.
+      </p>
+
+      <p>
+        If we ever add an analytics service or a contact form, this page will be updated to say so
+        plainly, and where appropriate a banner will appear before any tracking begins.
+      </p>
+
+      <p class="contact">
+        Questions or requests under GDPR can be sent to
+        <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+      </p>
+
+      <p class="meta">
+        Updated <em>April 2026</em>.
+      </p>
+    </article>
+  </section>
+</Base>
+
+<style>
+  .plate {
+    min-height: calc(100vh - var(--frame-w) * 2);
+    padding: 64px 56px;
+    display: grid;
+    place-items: center;
+  }
+  .inner {
+    max-width: 56ch;
+    width: 100%;
+  }
+  header {
+    margin-bottom: 48px;
+  }
+  .kicker {
+    display: block;
+    font-family: var(--body);
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+  h1 {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(40px, 6vw, 80px);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+  }
+
+  p {
+    font-family: var(--body);
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--ink);
+    margin-bottom: 18px;
+  }
+  p :global(em) {
+    color: var(--ink);
+  }
+  a {
+    transition: font-style 220ms ease;
+  }
+  a:hover {
+    font-style: italic;
+  }
+  .contact {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .meta {
+    margin-top: 24px;
+    font-family: var(--body);
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 880px) {
+    .plate {
+      padding: 40px 20px;
+    }
+  }
+</style>

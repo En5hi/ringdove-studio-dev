@@ -1,0 +1,833 @@
+<!--
+  Ringdove Studio — visual prototype, locked.
+  This file is the binding visual spec for ringdove.studio.
+  Do not modify to "improve" — the design direction is settled.
+  See docs/INITIAL_PROMPT.md for the engineering brief and CLAUDE.md for ongoing conventions.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ringdove — Frame v2</title>
+<link href="https://api.fontshare.com/v2/css?f[]=zodiak@200,300,400,400i,500,500i&f[]=author@300,400,500,300i,400i&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0A0907;
+  --bg-soft: #100E0B;
+  --ink: #F2ECDC;
+  --ink-soft: #918A7C;
+  --ink-faint: #4A453B;
+  --rule: rgba(242, 236, 220, 0.20);
+  --rule-soft: rgba(242, 236, 220, 0.08);
+
+  --display: 'Zodiak', 'Times New Roman', serif;
+  --body: 'Author', -apple-system, sans-serif;
+
+  --frame-w: 36px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--rule-soft); }
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'kern', 'liga';
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+::selection { background: var(--ink); color: var(--bg); }
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 200;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.95 0 0 0 0 0.92 0 0 0 0 0.85 0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+}
+
+em { font-family: var(--display); font-style: italic; }
+
+/* ========== THE FRAME ========== */
+.frame-edge { position: fixed; background: var(--bg); z-index: 100; }
+.frame-top {
+  top: 0; left: 0; right: 0;
+  height: var(--frame-w);
+  border-bottom: 1px solid var(--rule);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 0 16px;
+}
+.frame-bottom {
+  bottom: 0; left: 0; right: 0;
+  height: var(--frame-w);
+  border-top: 1px solid var(--rule);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 0 16px;
+}
+.frame-left {
+  top: var(--frame-w); bottom: var(--frame-w); left: 0;
+  width: var(--frame-w);
+  border-right: 1px solid var(--rule);
+  display: flex; align-items: center; justify-content: center;
+}
+.frame-right {
+  top: var(--frame-w); bottom: var(--frame-w); right: 0;
+  width: var(--frame-w);
+  border-left: 1px solid var(--rule);
+  display: flex; align-items: center; justify-content: center;
+}
+
+.frame-top .wordmark {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 17px;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+  padding: 0 8px;
+}
+.frame-top .wordmark em { font-weight: 400; }
+.frame-top .section {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 13px;
+  color: var(--ink-soft);
+  letter-spacing: 0.01em;
+  text-align: center;
+  transition: opacity 400ms ease;
+  padding: 0 16px;
+}
+.frame-top .nav { display: flex; gap: 18px; justify-content: flex-end; padding: 0 8px; }
+.frame-top .nav a {
+  font-family: var(--body);
+  font-size: 10.5px;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  font-weight: 500;
+  transition: color 220ms ease;
+}
+.frame-top .nav a:hover { color: var(--ink); }
+
+.frame-bottom .l, .frame-bottom .r {
+  font-family: var(--body);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  font-weight: 500;
+  padding: 0 8px;
+}
+.frame-bottom .r { text-align: right; }
+.frame-bottom .c {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 13px;
+  color: var(--ink-soft);
+  letter-spacing: 0.01em;
+  padding: 0 16px;
+}
+
+.frame-left .vert {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: var(--body);
+  font-size: 10px;
+  letter-spacing: 0.30em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  font-weight: 500;
+}
+.frame-right .vert {
+  writing-mode: vertical-rl;
+  font-family: var(--body);
+  font-size: 10px;
+  letter-spacing: 0.30em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  font-weight: 500;
+}
+
+/* corner ticks */
+.frame-top::before, .frame-top::after,
+.frame-bottom::before, .frame-bottom::after {
+  content: '';
+  position: absolute;
+  width: 9px; height: 9px;
+  background:
+    linear-gradient(var(--ink), var(--ink)) center/100% 1px no-repeat,
+    linear-gradient(var(--ink), var(--ink)) center/1px 100% no-repeat;
+}
+.frame-top::before { top: calc(var(--frame-w) - 5px); left: calc(var(--frame-w) - 5px); }
+.frame-top::after { top: calc(var(--frame-w) - 5px); right: calc(var(--frame-w) - 5px); }
+.frame-bottom::before { bottom: calc(var(--frame-w) - 5px); left: calc(var(--frame-w) - 5px); }
+.frame-bottom::after { bottom: calc(var(--frame-w) - 5px); right: calc(var(--frame-w) - 5px); }
+
+/* ========== CANVAS ========== */
+main { padding: var(--frame-w); }
+
+.plate {
+  min-height: calc(100vh - var(--frame-w) * 2);
+  padding: 64px 56px;
+  border-bottom: 1px solid var(--rule-soft);
+  position: relative;
+  display: grid;
+  align-items: center;
+}
+
+/* ========== HERO PLATE ========== */
+.plate.hero {
+  grid-template-rows: 1fr auto;
+  align-items: stretch;
+  padding: 80px 56px;
+}
+.plate.hero h1 {
+  align-self: center;
+  font-family: var(--display);
+  font-weight: 200;
+  font-size: clamp(56px, 9.6vw, 168px);
+  line-height: 0.94;
+  letter-spacing: -0.035em;
+  text-align: center;
+  max-width: 14ch;
+  color: var(--ink);
+  margin: 0 auto;
+}
+.plate.hero h1 em { font-weight: 300; }
+.plate.hero .floor {
+  align-self: end;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 24px;
+  border-top: 1px solid var(--rule-soft);
+}
+.plate.hero .floor span {
+  font-family: var(--body);
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  font-weight: 500;
+}
+.plate.hero .floor em {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 300;
+  text-transform: none;
+  letter-spacing: 0.01em;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+/* ========== WORK PLATE — alternating side-by-side ========== */
+.plate.work .layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 96px;
+  align-items: center;
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+}
+.plate.work .image {
+  width: 100%;
+  max-width: 480px;
+  aspect-ratio: 4 / 5;
+  background: var(--bg-soft);
+  border: 1px solid var(--rule-soft);
+  position: relative;
+  overflow: hidden;
+  justify-self: end;
+  transition: transform 800ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.plate.work .image:hover { transform: scale(1.005); }
+
+.plate.work .copy {
+  max-width: 440px;
+  justify-self: start;
+  display: flex;
+  flex-direction: column;
+}
+.plate.work .copy .pretitle {
+  font-family: var(--body);
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+.plate.work .copy h2 {
+  font-family: var(--display);
+  font-weight: 300;
+  font-size: clamp(36px, 4.4vw, 64px);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  margin-bottom: 20px;
+  color: var(--ink);
+}
+.plate.work .copy h2 em { font-weight: 400; }
+.plate.work .copy .lede {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 19px;
+  line-height: 1.42;
+  color: var(--ink-soft);
+  margin-bottom: 24px;
+  letter-spacing: 0.005em;
+}
+.plate.work .copy .body {
+  font-family: var(--body);
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--ink);
+  margin-bottom: 32px;
+}
+.plate.work .copy .body em { color: var(--ink); }
+.plate.work .copy .meta {
+  padding-top: 20px;
+  border-top: 1px solid var(--rule-soft);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px 24px;
+  font-family: var(--body);
+  font-size: 12.5px;
+  font-weight: 400;
+}
+.plate.work .copy .meta dt {
+  color: var(--ink-soft);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 10.5px;
+  font-weight: 500;
+  padding-top: 2px;
+}
+.plate.work .copy .meta dd { color: var(--ink); }
+
+/* ALTERNATION — image on the right */
+.plate.work .layout.reversed .image {
+  order: 2;
+  justify-self: start;
+}
+.plate.work .layout.reversed .copy {
+  order: 1;
+  justify-self: end;
+}
+
+/* IMAGE TREATMENTS — adjusted for portrait */
+.img-spire { background: var(--bg-soft); }
+.img-spire .ttl {
+  position: absolute;
+  top: 22px; left: 24px; right: 24px;
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--body);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  font-weight: 500;
+}
+.img-spire .ttl em {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 300;
+  text-transform: none;
+  letter-spacing: 0.01em;
+  font-size: 12px;
+  color: var(--ink-faint);
+}
+.img-spire .ring {
+  position: absolute;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+}
+.img-spire .r1 { width: 8%; aspect-ratio: 1; opacity: 0.85; }
+.img-spire .r2 { width: 22%; aspect-ratio: 1; opacity: 0.40; }
+.img-spire .r3 { width: 40%; aspect-ratio: 1; opacity: 0.22; }
+.img-spire .r4 { width: 62%; aspect-ratio: 1; opacity: 0.12; }
+.img-spire .r5 { width: 86%; aspect-ratio: 1; opacity: 0.06; }
+.img-spire .core {
+  position: absolute;
+  width: 14px; height: 14px;
+  background: var(--ink);
+  border-radius: 50%;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 36px rgba(242,236,220,0.45), 0 0 8px rgba(242,236,220,0.85);
+}
+.img-spire .nm {
+  position: absolute;
+  bottom: 24px; left: 24px; right: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.img-spire .nm em {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+.img-spire .nm span {
+  font-family: var(--body);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  font-weight: 500;
+}
+
+.img-lattice {
+  background:
+    linear-gradient(180deg, transparent 49.5%, rgba(242,236,220,0.18) 49.5%, rgba(242,236,220,0.18) 50.5%, transparent 50.5%),
+    linear-gradient(90deg, transparent 33%, rgba(242,236,220,0.18) 33%, rgba(242,236,220,0.18) 33.5%, transparent 33.5%, transparent 66%, rgba(242,236,220,0.18) 66%, rgba(242,236,220,0.18) 66.5%, transparent 66.5%),
+    var(--bg-soft);
+  position: relative;
+}
+.img-lattice::before {
+  content: '';
+  position: absolute;
+  left: 33.5%; top: 50.5%;
+  width: 32.5%; height: 32%;
+  background: var(--ink);
+  opacity: 0.40;
+}
+.img-lattice::after {
+  content: '';
+  position: absolute;
+  right: 12%; top: 12%;
+  width: 14%; height: 3px;
+  background: var(--ink);
+}
+
+.img-morrow {
+  background: var(--bg-soft);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 14% 12%;
+}
+.img-morrow::before {
+  content: '€7,420';
+  position: absolute;
+  left: 12%; top: 22%;
+  font-family: var(--display);
+  font-weight: 300;
+  font-size: clamp(28px, 4.4vw, 48px);
+  letter-spacing: -0.04em;
+  color: var(--ink);
+}
+.img-morrow::after {
+  content: '';
+  position: absolute;
+  left: 12%; right: 12%;
+  bottom: 22%;
+  height: 1px;
+  background: linear-gradient(90deg, var(--ink) 0%, var(--ink) 38%, transparent 38%, transparent 50%, var(--ink-soft) 50%, var(--ink-soft) 78%, transparent 78%);
+}
+.img-morrow .yr {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 13px;
+  color: var(--ink-faint);
+  margin-bottom: 4px;
+}
+
+.img-halftone {
+  background: var(--bg-soft);
+  position: relative;
+  overflow: hidden;
+}
+.img-halftone::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, var(--ink) 1.2px, transparent 1.6px);
+  background-size: 11px 11px;
+  opacity: 0.55;
+  -webkit-mask-image: linear-gradient(180deg, black 0%, transparent 75%);
+  mask-image: linear-gradient(180deg, black 0%, transparent 75%);
+}
+.img-halftone::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, var(--ink) 1.6px, transparent 2px);
+  background-size: 18px 18px;
+  opacity: 0.30;
+  -webkit-mask-image: linear-gradient(180deg, transparent 50%, black 100%);
+  mask-image: linear-gradient(180deg, transparent 50%, black 100%);
+}
+
+/* ========== STUDIO PLATE ========== */
+.plate.studio {
+  grid-template-rows: auto 1fr auto;
+  padding: 56px 56px;
+  gap: 32px;
+}
+.plate.studio .top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.plate.studio .top .l {
+  font-family: var(--body);
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  font-weight: 500;
+}
+.plate.studio .top .r {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+.plate.studio .body {
+  align-self: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 96px;
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+.plate.studio .col h3 {
+  font-family: var(--display);
+  font-weight: 300;
+  font-size: clamp(32px, 3.8vw, 56px);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  margin-bottom: 28px;
+}
+.plate.studio .col h3 em { font-weight: 400; }
+.plate.studio .col p {
+  font-family: var(--display);
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--ink);
+  max-width: 36ch;
+  letter-spacing: -0.003em;
+}
+.plate.studio .col p em { color: var(--ink); }
+.plate.studio .col .nb {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--rule-soft);
+  font-family: var(--body);
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+  font-weight: 400;
+  max-width: 36ch;
+}
+
+/* ========== STATEMENT ========== */
+.plate.statement { display: grid; place-items: center; }
+.plate.statement p {
+  font-family: var(--display);
+  font-weight: 200;
+  font-size: clamp(36px, 5.6vw, 88px);
+  line-height: 1.1;
+  letter-spacing: -0.030em;
+  text-align: center;
+  max-width: 16ch;
+  color: var(--ink);
+  text-indent: -0.36em;
+  margin: 0 auto;
+}
+.plate.statement p em { font-weight: 300; }
+
+/* ========== CONTACT ========== */
+.plate.contact {
+  grid-template-rows: 1fr auto;
+  align-items: stretch;
+  padding: 64px 56px 56px;
+}
+.plate.contact .word {
+  align-self: center;
+  font-family: var(--display);
+  font-weight: 200;
+  font-size: clamp(72px, 12vw, 220px);
+  line-height: 0.84;
+  letter-spacing: -0.04em;
+  text-align: center;
+}
+.plate.contact .word em { font-weight: 300; }
+.plate.contact .info {
+  align-self: end;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 40px;
+  padding-top: 24px;
+  border-top: 1px solid var(--rule-soft);
+}
+.plate.contact .info .col h4 {
+  font-family: var(--body);
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+.plate.contact .info .col a, .plate.contact .info .col p {
+  display: block;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 20px;
+  letter-spacing: -0.012em;
+  line-height: 1.4;
+  transition: font-style 220ms ease;
+}
+.plate.contact .info .col a:hover { font-style: italic; }
+.plate.contact .info .col .s {
+  font-family: var(--body);
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  margin-top: 4px;
+  font-weight: 400;
+}
+
+/* RESPONSIVE */
+@media (max-width: 880px) {
+  :root { --frame-w: 24px; }
+  .frame-top, .frame-bottom { padding: 0 8px; }
+  .frame-top .wordmark { font-size: 14px; padding: 0 4px; }
+  .frame-top .section { display: none; }
+  .frame-top .nav { gap: 10px; padding: 0 4px; }
+  .frame-top .nav a { font-size: 9px; letter-spacing: 0.16em; }
+  .frame-bottom .l, .frame-bottom .r { font-size: 9px; letter-spacing: 0.16em; padding: 0 4px; }
+  .frame-bottom .c { font-size: 11px; }
+  .frame-left .vert, .frame-right .vert { font-size: 9px; letter-spacing: 0.20em; }
+
+  .plate { padding: 40px 20px; min-height: calc(100vh - var(--frame-w) * 2); }
+  .plate.hero h1 { font-size: clamp(40px, 13vw, 96px); }
+
+  .plate.work .layout { grid-template-columns: 1fr; gap: 32px; }
+  .plate.work .image { justify-self: center; max-width: 360px; }
+  .plate.work .copy { justify-self: center; max-width: 100%; }
+  .plate.work .layout.reversed .image { order: 1; justify-self: center; }
+  .plate.work .layout.reversed .copy { order: 2; justify-self: center; }
+
+  .plate.studio .body { grid-template-columns: 1fr; gap: 48px; }
+  .plate.contact .info { grid-template-columns: 1fr; gap: 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- THE FRAME -->
+<div class="frame-edge frame-top">
+  <div class="wordmark">Rin<em>g</em>dove</div>
+  <div class="section" id="section-name">Quiet design for digital products that <em>repay attention</em></div>
+  <div class="nav">
+    <a href="#work">Work</a>
+    <a href="#studio">Studio</a>
+    <a href="#contact">Contact</a>
+  </div>
+</div>
+
+<div class="frame-edge frame-left">
+  <span class="vert">A design studio · Currently designing for Polyphon &amp; Lattice · Open for Q3</span>
+</div>
+
+<div class="frame-edge frame-right">
+  <span class="vert">Located in Kraków · CET · Working remotely · Issue Nº 04 · Spring 2026</span>
+</div>
+
+<div class="frame-edge frame-bottom">
+  <div class="l">50.0647° N · 19.9450° E</div>
+  <div class="c" id="page-counter">Plate I / VI</div>
+  <div class="r">Set in Zodiak &amp; Author · MMXXVI</div>
+</div>
+
+<!-- THE CANVAS -->
+<main>
+
+  <section class="plate hero" data-section="Quiet design for digital products that repay attention" data-page="I / VI">
+    <h1>Quiet design for digital products that <em>repay attention.</em></h1>
+    <div class="floor">
+      <span>A design studio</span>
+      <em>Two disciplines, one standard.</em>
+      <span>Est. MMXXIV</span>
+    </div>
+  </section>
+
+  <!-- PLATE I — Spire (image left) -->
+  <section class="plate work" id="work" data-section="I. Selected Work — Spire" data-page="II / VI">
+    <div class="layout">
+      <div class="image img-spire">
+        <div class="ttl"><span>Spire / Polyphon</span><em>Granular synth.</em></div>
+        <div class="ring r5"></div>
+        <div class="ring r4"></div>
+        <div class="ring r3"></div>
+        <div class="ring r2"></div>
+        <div class="ring r1"></div>
+        <div class="core"></div>
+        <div class="nm"><em>v1.2</em><span>2025</span></div>
+      </div>
+      <div class="copy">
+        <span class="pretitle">No. 01 — For Polyphon · Audio · 2025</span>
+        <h2>Spire, a granular <em>synthesizer.</em></h2>
+        <p class="lede">Plugin GUI, brand, and a marketing site that reads like the manual.</p>
+        <p class="body">There is a particular pleasure in designing for sound. The first conversations with Polyphon were about how a granular synthesizer should <em>feel</em> before they were about how it should look — what a hand reaches for, what an ear waits for. Four months end to end.</p>
+        <dl class="meta">
+          <dt>Deliver</dt><dd>Plugin GUI · Brand · Marketing · Manual</dd>
+          <dt>Term</dt><dd>Four months</dd>
+          <dt>Status</dt><dd>Shipped · v1.2 in design</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLATE II — Lattice (image right) -->
+  <section class="plate work" data-section="II. Selected Work — Lattice" data-page="III / VI">
+    <div class="layout reversed">
+      <div class="image img-lattice"></div>
+      <div class="copy">
+        <span class="pretitle">No. 02 — For Lattice · Product · 2025</span>
+        <h2>Lattice, an <em>operations</em> platform.</h2>
+        <p class="lede">Identity, product surface, and the design system underneath.</p>
+        <p class="body">The brief from Lattice was unusual in its honesty: the product worked, but the team had outgrown the surface they had built for it. <em>Nine months end to end</em>, with the engagement continuing on what comes next.</p>
+        <dl class="meta">
+          <dt>Deliver</dt><dd>Identity · Product · Design system · Marketing</dd>
+          <dt>Term</dt><dd>Nine months, ongoing</dd>
+          <dt>Status</dt><dd>Shipped · in continued use</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLATE III — Morrow (image left) -->
+  <section class="plate work" data-section="III. Selected Work — Morrow" data-page="IV / VI">
+    <div class="layout">
+      <div class="image img-morrow"><span class="yr">April · 2025</span></div>
+      <div class="copy">
+        <span class="pretitle">No. 03 — Morrow · Product · 2024</span>
+        <h2>Morrow, finance for <em>makers.</em></h2>
+        <p class="lede">End-to-end product across six months. Independent operation, soft launch.</p>
+        <p class="body">Self-employed makers are the kind of people who keep two notebooks: one for ideas, one for invoices. Morrow began as <em>a small experiment</em> in giving them a single, quiet place to handle the second.</p>
+        <dl class="meta">
+          <dt>Deliver</dt><dd>End-to-end product design</dd>
+          <dt>Term</dt><dd>Six months</dd>
+          <dt>Status</dt><dd>Independent · operating</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLATE IV — Halftone (image right) -->
+  <section class="plate work" data-section="IV. Selected Work — Halftone" data-page="V / VI">
+    <div class="layout reversed">
+      <div class="image img-halftone"></div>
+      <div class="copy">
+        <span class="pretitle">No. 04 — For Northern Audio Co. · Audio · 2024</span>
+        <h2>Halftone, <em>tape</em> saturation.</h2>
+        <p class="lede">Plugin interface and packaging in twelve weeks.</p>
+        <p class="body">Tape saturation belongs to a category of audio effects that asks for warmth without nostalgia — for a feeling of paper and analog without becoming a costume. <em>The interface had to feel familiar; the brand had to feel new.</em></p>
+        <dl class="meta">
+          <dt>Deliver</dt><dd>Plugin interface · Packaging · Marketing</dd>
+          <dt>Term</dt><dd>Twelve weeks</dd>
+          <dt>Status</dt><dd>Shipped · refresh in 2026</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="plate studio" id="studio" data-section="V. Two disciplines, one standard" data-page="VI / VI">
+    <div class="top">
+      <span class="l">Studio · Two disciplines</span>
+      <span class="r"><em>One standard.</em></span>
+    </div>
+    <div class="body">
+      <div class="col">
+        <h3>Product <em>Design</em></h3>
+        <p>For software founders building considered products. We work end to end from first sketches through the design system that keeps the product coherent as it grows. <em>We want to be useful early, when the decisions matter most.</em></p>
+        <p class="nb">Identity · Product surface · Design system · Marketing site. Three to six months, embedded.</p>
+      </div>
+      <div class="col">
+        <h3>Audio Plugin <em>Design</em></h3>
+        <p>For plugin developers and audio software companies. We design plugin interfaces that respect the workflow of the people using them, with brand and packaging that <em>gives the plugin a place in the room.</em></p>
+        <p class="nb">Plugin GUI · Brand · Packaging · Marketing site · Manual. Six to twelve weeks per plugin.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="plate statement" data-section="A studio note, kept on the wall" data-page="— / VI">
+    <p>“We do the work that the work asks for. <em>No more, no less.</em>”</p>
+  </section>
+
+  <section class="plate contact" id="contact" data-section="Contact" data-page="VI / VI">
+    <div class="word">Rin<em>g</em>dove.</div>
+    <div class="info">
+      <div class="col">
+        <h4>Write</h4>
+        <a href="mailto:hello@ringdove.studio">hello@ringdove.studio</a>
+        <p class="s">For new work or a quiet conversation.</p>
+      </div>
+      <div class="col">
+        <h4>Located</h4>
+        <p>Kraków, Poland</p>
+        <p class="s">CET · Working remotely.</p>
+      </div>
+      <div class="col">
+        <h4>Currently</h4>
+        <p>Open for Q3</p>
+        <p class="s">Two slots, both tracks.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const sectionEl = document.getElementById('section-name');
+  const pageEl = document.getElementById('page-counter');
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting && e.intersectionRatio > 0.45) {
+        const name = e.target.dataset.section;
+        const page = e.target.dataset.page;
+        if (name) sectionEl.innerHTML = name.replace(/\brepay attention\b/, '<em>repay attention</em>');
+        if (page) pageEl.textContent = 'Plate ' + page;
+      }
+    });
+  }, { threshold: [0.45, 0.6, 0.75] });
+
+  document.querySelectorAll('[data-section]').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>

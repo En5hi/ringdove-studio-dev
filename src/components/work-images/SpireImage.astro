@@ -1,0 +1,137 @@
+---
+interface Props {
+  client?: string;
+  type?: string;
+  version?: string;
+  year?: number | string;
+}
+const { client = 'Spire / Polyphon', type = 'Granular synth.', version = 'v1.2', year = 2025 } =
+  Astro.props;
+---
+
+<div class="image img-spire">
+  <div class="ttl"><span>{client}</span><em>{type}</em></div>
+  <div class="ring r5"></div>
+  <div class="ring r4"></div>
+  <div class="ring r3"></div>
+  <div class="ring r2"></div>
+  <div class="ring r1"></div>
+  <div class="core"></div>
+  <div class="nm"><em>{version}</em><span>{year}</span></div>
+</div>
+
+<style>
+  .image {
+    width: 100%;
+    max-width: 480px;
+    aspect-ratio: 4 / 5;
+    background: var(--bg-soft);
+    border: 1px solid var(--rule-soft);
+    position: relative;
+    overflow: hidden;
+    transition: transform 800ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .image:hover {
+    transform: scale(1.005);
+  }
+
+  .img-spire {
+    background: var(--bg-soft);
+  }
+  .ttl {
+    position: absolute;
+    top: 22px;
+    left: 24px;
+    right: 24px;
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--body);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 500;
+  }
+  .ttl :global(em) {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 300;
+    text-transform: none;
+    letter-spacing: 0.01em;
+    font-size: 12px;
+    color: var(--ink-faint);
+  }
+
+  .ring {
+    position: absolute;
+    border: 1px solid var(--ink);
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .r1 {
+    width: 8%;
+    aspect-ratio: 1;
+    opacity: 0.85;
+  }
+  .r2 {
+    width: 22%;
+    aspect-ratio: 1;
+    opacity: 0.4;
+  }
+  .r3 {
+    width: 40%;
+    aspect-ratio: 1;
+    opacity: 0.22;
+  }
+  .r4 {
+    width: 62%;
+    aspect-ratio: 1;
+    opacity: 0.12;
+  }
+  .r5 {
+    width: 86%;
+    aspect-ratio: 1;
+    opacity: 0.06;
+  }
+
+  .core {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background: var(--ink);
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow:
+      0 0 36px rgba(242, 236, 220, 0.45),
+      0 0 8px rgba(242, 236, 220, 0.85);
+  }
+
+  .nm {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    right: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .nm :global(em) {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .nm span {
+    font-family: var(--body);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 500;
+  }
+</style>

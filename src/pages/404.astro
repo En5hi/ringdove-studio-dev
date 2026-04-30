@@ -1,0 +1,76 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Plate not found" description="The page you were looking for is not in this issue.">
+  <section class="plate notfound" data-section="Plate not found" data-page="— / VI">
+    <div class="inner">
+      <h1>Plate not <em>found.</em></h1>
+      <p class="lede">
+        The page you were looking for is not in this issue.
+      </p>
+      <p class="back">
+        <a href="/">Return to the studio<em> →</em></a>
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .plate {
+    min-height: calc(100vh - var(--frame-w) * 2);
+    padding: 64px 56px;
+    display: grid;
+    place-items: center;
+  }
+  .inner {
+    text-align: center;
+    max-width: 28ch;
+  }
+  h1 {
+    font-family: var(--display);
+    font-weight: 200;
+    font-size: clamp(56px, 9.6vw, 140px);
+    line-height: 0.94;
+    letter-spacing: -0.035em;
+    color: var(--ink);
+    margin-bottom: 24px;
+  }
+  h1 :global(em) {
+    font-weight: 300;
+  }
+  .lede {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 1.42;
+    color: var(--ink-soft);
+    margin-bottom: 32px;
+  }
+  .back {
+    font-family: var(--body);
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+  .back a {
+    transition: color 220ms ease;
+  }
+  .back a:hover {
+    color: var(--ink);
+  }
+  .back :global(em) {
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 300;
+  }
+
+  @media (max-width: 880px) {
+    .plate {
+      padding: 40px 20px;
+    }
+  }
+</style>

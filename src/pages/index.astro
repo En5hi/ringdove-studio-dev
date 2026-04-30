@@ -1,0 +1,21 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import HeroPlate from '../components/plates/HeroPlate.astro';
+import WorkPlate from '../components/plates/WorkPlate.astro';
+import StudioPlate from '../components/plates/StudioPlate.astro';
+import StatementPlate from '../components/plates/StatementPlate.astro';
+import ContactPlate from '../components/plates/ContactPlate.astro';
+
+const works = (await getCollection('work', ({ data }) => data.featured)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<Base>
+  <HeroPlate />
+  {works.map((w) => <WorkPlate work={w} />)}
+  <StudioPlate />
+  <StatementPlate />
+  <ContactPlate />
+</Base>

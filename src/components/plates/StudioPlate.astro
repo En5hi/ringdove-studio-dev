@@ -1,0 +1,131 @@
+---
+---
+
+<section
+  class="plate studio"
+  id="studio"
+  data-section="V. Two disciplines, <em>one standard</em>"
+  data-page="VI / VI"
+>
+  <div class="top">
+    <span class="l">Studio · Two disciplines</span>
+    <span class="r"><em>One standard.</em></span>
+  </div>
+  <div class="body">
+    <div class="col">
+      <h3>Product <em>Design</em></h3>
+      <p>
+        For software founders building considered products. We work end to end from first sketches
+        through the design system that keeps the product coherent as it grows.
+        <em>We want to be useful early, when the decisions matter most.</em>
+      </p>
+      <p class="nb">
+        Identity · Product surface · Design system · Marketing site. Three to six months, embedded.
+      </p>
+    </div>
+    <div class="col">
+      <h3>Audio Plugin <em>Design</em></h3>
+      <p>
+        For plugin developers and audio software companies. We design plugin interfaces that respect
+        the workflow of the people using them, with brand and packaging that
+        <em>gives the plugin a place in the room.</em>
+      </p>
+      <p class="nb">
+        Plugin GUI · Brand · Packaging · Marketing site · Manual. Six to twelve weeks per plugin.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .plate {
+    min-height: calc(100vh - var(--frame-w) * 2);
+    padding: 64px 56px;
+    border-bottom: 1px solid var(--rule-soft);
+    position: relative;
+    display: grid;
+    align-items: center;
+  }
+
+  .plate.studio {
+    grid-template-rows: auto 1fr auto;
+    padding: 56px 56px;
+    gap: 32px;
+  }
+
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .top .l {
+    font-family: var(--body);
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+  .top .r {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+
+  .body {
+    align-self: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 96px;
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .col h3 {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(32px, 3.8vw, 56px);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    margin-bottom: 28px;
+  }
+  .col h3 :global(em) {
+    font-weight: 400;
+  }
+  .col p {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--ink);
+    max-width: 36ch;
+    letter-spacing: -0.003em;
+  }
+  .col p :global(em) {
+    color: var(--ink);
+  }
+  .col .nb {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid var(--rule-soft);
+    font-family: var(--body);
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    font-weight: 400;
+    max-width: 36ch;
+  }
+
+  @media (max-width: 880px) {
+    .plate {
+      padding: 40px 20px;
+    }
+    .body {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+  }
+</style>

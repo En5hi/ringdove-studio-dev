@@ -1,0 +1,44 @@
+---
+---
+
+<section class="plate statement" data-section="A studio note, kept on the wall" data-page="— / VI">
+  <p>&ldquo;We do the work that the work asks for. <em>No more, no less.</em>&rdquo;</p>
+</section>
+
+<style>
+  .plate {
+    min-height: calc(100vh - var(--frame-w) * 2);
+    padding: 64px 56px;
+    border-bottom: 1px solid var(--rule-soft);
+    position: relative;
+    display: grid;
+    align-items: center;
+  }
+
+  .plate.statement {
+    display: grid;
+    place-items: center;
+  }
+
+  .plate.statement p {
+    font-family: var(--display);
+    font-weight: 200;
+    font-size: clamp(36px, 5.6vw, 88px);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    text-align: center;
+    max-width: 16ch;
+    color: var(--ink);
+    text-indent: -0.36em;
+    margin: 0 auto;
+  }
+  .plate.statement p :global(em) {
+    font-weight: 300;
+  }
+
+  @media (max-width: 880px) {
+    .plate {
+      padding: 40px 20px;
+    }
+  }
+</style>

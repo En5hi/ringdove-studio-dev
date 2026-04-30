@@ -1,0 +1,103 @@
+---
+import { SITE } from '../../lib/site';
+---
+
+<section class="plate contact" id="contact" data-section="Contact" data-page="VI / VI">
+  <div class="word">Rin<em>g</em>dove.</div>
+  <div class="info">
+    <div class="col">
+      <h4>Write</h4>
+      <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+      <p class="s">{SITE.contact.write.sub}</p>
+    </div>
+    <div class="col">
+      <h4>Located</h4>
+      <p>{SITE.location}</p>
+      <p class="s">{SITE.contact.located.sub}</p>
+    </div>
+    <div class="col">
+      <h4>Currently</h4>
+      <p>{SITE.contact.currently.headline}</p>
+      <p class="s">{SITE.contact.currently.sub}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .plate {
+    min-height: calc(100vh - var(--frame-w) * 2);
+    padding: 64px 56px;
+    border-bottom: 1px solid var(--rule-soft);
+    position: relative;
+    display: grid;
+    align-items: center;
+  }
+
+  .plate.contact {
+    grid-template-rows: 1fr auto;
+    align-items: stretch;
+    padding: 64px 56px 56px;
+  }
+
+  .word {
+    align-self: center;
+    font-family: var(--display);
+    font-weight: 200;
+    font-size: clamp(72px, 12vw, 220px);
+    line-height: 0.84;
+    letter-spacing: -0.04em;
+    text-align: center;
+  }
+  .word :global(em) {
+    font-weight: 300;
+  }
+
+  .info {
+    align-self: end;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 40px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule-soft);
+  }
+
+  .col h4 {
+    font-family: var(--body);
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+  .col a,
+  .col p {
+    display: block;
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: 20px;
+    letter-spacing: -0.012em;
+    line-height: 1.4;
+    transition: font-style 220ms ease;
+  }
+  .col a:hover {
+    font-style: italic;
+  }
+  .col .s {
+    font-family: var(--body);
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    margin-top: 4px;
+    font-weight: 400;
+  }
+
+  @media (max-width: 880px) {
+    .plate {
+      padding: 40px 20px;
+    }
+    .info {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+  }
+</style>

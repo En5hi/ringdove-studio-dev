@@ -1,0 +1,113 @@
+---
+import { SITE } from '../../lib/site';
+
+const tokens = SITE.hero.headline.match(/<em>.*?<\/em>|\S+/g) ?? [];
+const sectionLabel = SITE.hero.headline.replace(/\.<\/em>$/, '</em>');
+---
+
+<section class="plate hero" data-section={sectionLabel} data-page="I / VI">
+  <h1>
+    {
+      tokens.map((tok, i) => (
+        <>
+          {i > 0 && ' '}
+          <span class="w" style={`--d: ${i * 80}ms`} set:html={tok} />
+        </>
+      ))
+    }
+  </h1>
+  <div class="floor">
+    <span>{SITE.hero.floor.left}</span>
+    <em>{SITE.hero.floor.center}</em>
+    <span>{SITE.hero.floor.right}</span>
+  </div>
+</section>
+
+<style>
+  .plate {
+    min-height: calc(100vh - var(--frame-w) * 2);
+    padding: 64px 56px;
+    border-bottom: 1px solid var(--rule-soft);
+    position: relative;
+    display: grid;
+    align-items: center;
+  }
+
+  .plate.hero {
+    grid-template-rows: 1fr auto;
+    align-items: stretch;
+    padding: 80px 56px;
+  }
+
+  .plate.hero h1 {
+    align-self: center;
+    font-family: var(--display);
+    font-weight: 200;
+    font-size: clamp(56px, 9.6vw, 168px);
+    line-height: 0.94;
+    letter-spacing: -0.035em;
+    text-align: center;
+    max-width: 14ch;
+    color: var(--ink);
+    margin: 0 auto;
+  }
+
+  .plate.hero h1 :global(em) {
+    font-weight: 300;
+  }
+
+  /* Word-by-word rise on first paint. ~80ms stagger × 6 + 620ms ≈ 1100ms total. */
+  .w {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(40px);
+    animation: word-rise 620ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    animation-delay: var(--d, 0ms);
+    will-change: opacity, transform;
+  }
+  @keyframes word-rise {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .plate.hero .floor {
+    align-self: end;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .plate.hero .floor span {
+    font-family: var(--body);
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+  .plate.hero .floor :global(em) {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 300;
+    text-transform: none;
+    letter-spacing: 0.01em;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 880px) {
+    .plate {
+      padding: 40px 20px;
+    }
+    .plate.hero h1 {
+      font-size: clamp(40px, 13vw, 96px);
+    }
+  }
+</style>

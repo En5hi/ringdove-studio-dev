@@ -1,0 +1,138 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../lib/site';
+---
+
+<Base
+  title="Impressum"
+  description="Imprint and registration details for RINGDOVE SP. Z O.O."
+>
+  <section class="plate doc" data-section="Impressum" data-page="— / VI">
+    <article class="inner">
+      <header>
+        <span class="kicker">Imprint</span>
+        <h1><em>Impressum</em></h1>
+      </header>
+
+      <dl class="reg">
+        <dt>Registered name</dt>
+        <dd>{SITE.legalName}</dd>
+
+        <dt>Registered office</dt>
+        <dd>
+          <span class="todo">Address — to be filled in</span>
+        </dd>
+
+        <dt>NIP</dt>
+        <dd><span class="todo">NIP — to be filled in</span></dd>
+
+        <dt>REGON</dt>
+        <dd><span class="todo">REGON — to be filled in</span></dd>
+
+        <dt>KRS</dt>
+        <dd><span class="todo">KRS — to be filled in</span></dd>
+
+        <dt>Share capital</dt>
+        <dd><span class="todo">Share capital — to be filled in</span></dd>
+
+        <dt>Email</dt>
+        <dd><a href={`mailto:${SITE.email}`}>{SITE.email}</a></dd>
+
+        <dt>Represented by</dt>
+        <dd>Maciej Grzywacz, Member of the Board</dd>
+      </dl>
+
+      <p class="note">
+        Operating from <em>Kraków</em>, Poland · Central European Time.
+      </p>
+    </article>
+  </section>
+</Base>
+
+<style>
+  .plate {
+    min-height: calc(100vh - var(--frame-w) * 2);
+    padding: 64px 56px;
+    display: grid;
+    place-items: center;
+  }
+  .inner {
+    max-width: 56ch;
+    width: 100%;
+  }
+  header {
+    margin-bottom: 48px;
+  }
+  .kicker {
+    display: block;
+    font-family: var(--body);
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+  h1 {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(40px, 6vw, 80px);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+  }
+
+  .reg {
+    display: grid;
+    grid-template-columns: 14ch 1fr;
+    gap: 12px 32px;
+    border-top: 1px solid var(--rule-soft);
+    border-bottom: 1px solid var(--rule-soft);
+    padding: 24px 0;
+    margin-bottom: 24px;
+  }
+  .reg dt {
+    font-family: var(--body);
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 500;
+    padding-top: 4px;
+  }
+  .reg dd {
+    font-family: var(--body);
+    font-size: 15px;
+    color: var(--ink);
+    line-height: 1.55;
+  }
+  .reg a {
+    transition: font-style 220ms ease;
+  }
+  .reg a:hover {
+    font-style: italic;
+  }
+  .todo {
+    color: var(--ink-faint);
+    font-style: italic;
+  }
+  .note {
+    font-family: var(--body);
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+
+  @media (max-width: 880px) {
+    .plate {
+      padding: 40px 20px;
+    }
+    .reg {
+      grid-template-columns: 1fr;
+      gap: 4px 0;
+    }
+    .reg dt {
+      padding-top: 16px;
+    }
+  }
+</style>

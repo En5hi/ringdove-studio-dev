@@ -1,0 +1,176 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { ROMAN } from '../../lib/site';
+import SpireImage from '../work-images/SpireImage.astro';
+import LatticeImage from '../work-images/LatticeImage.astro';
+import MorrowImage from '../work-images/MorrowImage.astro';
+import HalftoneImage from '../work-images/HalftoneImage.astro';
+
+interface Props {
+  work: CollectionEntry<'work'>;
+}
+const { work } = Astro.props;
+const { titlePlain, title, pretitle, lede, summary, deliverables, term, status, order, image, variant } =
+  work.data;
+
+const sectionLabel = `${ROMAN[order] ?? order}. Selected Work — ${titlePlain}`;
+const pageLabel = `${ROMAN[order + 1] ?? order + 1} / VI`;
+const sectionId = order === 1 ? 'work' : undefined;
+---
+
+<section class="plate work" id={sectionId} data-section={sectionLabel} data-page={pageLabel}>
+  <div class:list={['layout', variant === 'right' && 'reversed']}>
+    {image === 'spire' && <SpireImage />}
+    {image === 'lattice' && <LatticeImage />}
+    {image === 'morrow' && <MorrowImage />}
+    {image === 'halftone' && <HalftoneImage />}
+
+    <div class="copy">
+      <span class="pretitle">{pretitle}</span>
+      <h2 set:html={title} />
+      <p class="lede" set:html={lede} />
+      <p class="body" set:html={summary} />
+      <dl class="meta">
+        <dt>Deliver</dt>
+        <dd>{deliverables.join(' · ')}</dd>
+        <dt>Term</dt>
+        <dd>{term}</dd>
+        <dt>Status</dt>
+        <dd set:html={status} />
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  .plate {
+    min-height: calc(100vh - var(--frame-w) * 2);
+    padding: 64px 56px;
+    border-bottom: 1px solid var(--rule-soft);
+    position: relative;
+    display: grid;
+    align-items: center;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 96px;
+    align-items: center;
+    max-width: 1280px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  /* Image is rendered as a child component with its own .image class. */
+  .layout :global(.image) {
+    justify-self: end;
+  }
+
+  .copy {
+    max-width: 440px;
+    justify-self: start;
+    display: flex;
+    flex-direction: column;
+  }
+  .pretitle {
+    font-family: var(--body);
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 500;
+    margin-bottom: 24px;
+  }
+  h2 {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(36px, 4.4vw, 64px);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    margin-bottom: 20px;
+    color: var(--ink);
+  }
+  h2 :global(em) {
+    font-weight: 400;
+  }
+  .lede {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 1.42;
+    color: var(--ink-soft);
+    margin-bottom: 24px;
+    letter-spacing: 0.005em;
+  }
+  .body {
+    font-family: var(--body);
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--ink);
+    margin-bottom: 32px;
+  }
+  .body :global(em) {
+    color: var(--ink);
+  }
+  .meta {
+    padding-top: 20px;
+    border-top: 1px solid var(--rule-soft);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 8px 24px;
+    font-family: var(--body);
+    font-size: 12.5px;
+    font-weight: 400;
+  }
+  .meta dt {
+    color: var(--ink-soft);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-size: 10.5px;
+    font-weight: 500;
+    padding-top: 2px;
+  }
+  .meta dd {
+    color: var(--ink);
+  }
+
+  /* Image-on-the-right alternation. */
+  .layout.reversed :global(.image) {
+    order: 2;
+    justify-self: start;
+  }
+  .layout.reversed .copy {
+    order: 1;
+    justify-self: end;
+  }
+
+  @media (max-width: 880px) {
+    .plate {
+      padding: 40px 20px;
+    }
+    .layout {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    .layout :global(.image) {
+      justify-self: center;
+      max-width: 360px;
+    }
+    .copy {
+      justify-self: center;
+      max-width: 100%;
+    }
+    /* Always image-first when stacked, regardless of variant. */
+    .layout.reversed :global(.image) {
+      order: 1;
+      justify-self: center;
+    }
+    .layout.reversed .copy {
+      order: 2;
+      justify-self: center;
+    }
+  }
+</style>

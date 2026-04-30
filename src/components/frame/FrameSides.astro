@@ -1,0 +1,70 @@
+---
+import { SITE } from '../../lib/site';
+---
+
+<div class="frame-edge frame-left" aria-hidden="true">
+  <span class="vert">{SITE.side.left}</span>
+</div>
+
+<div class="frame-edge frame-right" aria-hidden="true">
+  <span class="vert">{SITE.side.right}</span>
+</div>
+
+<style>
+  .frame-edge {
+    position: fixed;
+    background: var(--bg);
+    z-index: 100;
+  }
+
+  .frame-left {
+    top: var(--frame-w);
+    bottom: var(--frame-w);
+    left: 0;
+    width: var(--frame-w);
+    border-right: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .frame-right {
+    top: var(--frame-w);
+    bottom: var(--frame-w);
+    right: 0;
+    width: var(--frame-w);
+    border-left: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .frame-left .vert {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-family: var(--body);
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+
+  .frame-right .vert {
+    writing-mode: vertical-rl;
+    font-family: var(--body);
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+
+  @media (max-width: 880px) {
+    .frame-left .vert,
+    .frame-right .vert {
+      font-size: 9px;
+      letter-spacing: 0.2em;
+    }
+  }
+</style>
