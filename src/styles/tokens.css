@@ -33,10 +33,40 @@
   --body: 'Author', -apple-system, BlinkMacSystemFont, sans-serif;
 
   --frame-w: 36px;
+
+  /* Frame typography. All frame text reads from these tokens so the
+     1600px / 2400px breakpoints below can bump them in one place. */
+  --frame-wordmark: 17px;
+  --frame-nav: 12px;
+  --frame-counter: 13px;
+  --frame-vert: 12px;
+  --frame-coords: 12px;
 }
 
 @media (max-width: 880px) {
   :root {
     --frame-w: 24px;
+  }
+}
+
+@media (min-width: 1600px) {
+  :root {
+    --frame-w: 48px;
+    --frame-wordmark: 22px;
+    --frame-nav: 14px;
+    --frame-counter: 16px;
+    --frame-vert: 14px;
+    --frame-coords: 14px;
+  }
+}
+
+@media (min-width: 2400px) {
+  :root {
+    --frame-w: 56px;
+    --frame-wordmark: 26px;
+    --frame-nav: 16px;
+    --frame-counter: 18px;
+    --frame-vert: 16px;
+    --frame-coords: 16px;
   }
 }
