@@ -1,6 +1,5 @@
 ---
 import { SITE } from '../../lib/site';
-import Wireframe from '../discipline/Wireframe.astro';
 
 const product = SITE.disciplines.product;
 const audio = SITE.disciplines.audio;
@@ -19,8 +18,6 @@ const audio = SITE.disciplines.audio;
 
   <div class="body">
     <a class="disc disc-left" href="/product" aria-label="See selected product work">
-      <Wireframe variant="product" side="left" />
-
       <svg
         class="chev chev-left"
         viewBox="0 0 10 18"
@@ -54,8 +51,6 @@ const audio = SITE.disciplines.audio;
     </a>
 
     <a class="disc disc-right" href="/audio" aria-label="See selected audio work">
-      <Wireframe variant="audio" side="right" />
-
       <svg
         class="chev chev-right"
         viewBox="0 0 10 18"
@@ -219,11 +214,12 @@ const audio = SITE.disciplines.audio;
     color: var(--ink);
   }
 
+  /* Meta lets dd run as wide as its content (no wrap on the Deliver line),
+     so the divider above and the Deliver/Term values render uniformly. */
   .meta {
     padding-top: 28px;
     margin-top: 28px;
     border-top: 1px solid var(--rule-soft);
-    max-width: 36ch;
     width: auto;
     align-self: start;
   }
@@ -242,6 +238,7 @@ const audio = SITE.disciplines.audio;
     color: var(--ink);
     line-height: 1.5;
     margin-bottom: 14px;
+    white-space: nowrap;
   }
   .meta dd:last-of-type {
     margin-bottom: 0;
@@ -314,19 +311,6 @@ const audio = SITE.disciplines.audio;
   .disc-right:focus-visible .chev-right {
     transform: translate(10px, -50%);
   }
-  /* Wireframe ends with only ~12px sticking past the page frame edge —
-     the wireframe is a peek, not a full-reveal. */
-  .disc:hover :global(.wireframe-left),
-  .disc:focus-visible :global(.wireframe-left) {
-    opacity: 1;
-    transform: translate(calc(-100% - 44px), -50%);
-  }
-  .disc:hover :global(.wireframe-right),
-  .disc:focus-visible :global(.wireframe-right) {
-    opacity: 1;
-    transform: translate(calc(100% + 44px), -50%);
-  }
-
   /* Suppress the default focus ring on the card link itself; the focus
      state is communicated through the same hover sequence. */
   .disc:focus-visible {
@@ -337,8 +321,7 @@ const audio = SITE.disciplines.audio;
     .disc,
     .disc h3 :global(em),
     .cta,
-    .chev,
-    :global(.wireframe) {
+    .chev {
       transition-duration: 0.001ms;
     }
   }
@@ -372,13 +355,17 @@ const audio = SITE.disciplines.audio;
       justify-items: start;
       text-align: left;
     }
-    .chev,
-    :global(.wireframe) {
+    .chev {
       display: none;
     }
     .cta {
       opacity: 1;
       transform: none;
+    }
+    /* Mobile screens are too narrow to keep the Deliver line on one line —
+       allow normal wrapping when stacked. */
+    .meta dd {
+      white-space: normal;
     }
   }
 </style>
