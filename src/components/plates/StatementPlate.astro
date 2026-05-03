@@ -1,46 +1,80 @@
 ---
+import { SITE } from '../../lib/site';
 ---
 
-<section class="plate statement" data-section="A studio note, kept on the wall" data-page="— / VI">
-  <p class="reveal-slow" data-reveal-blur="10" data-reveal-offset="16">
-    &ldquo;We do the work that the work asks for. <em>No more, no less.</em>&rdquo;
-  </p>
+<section
+  class="plate statement"
+  data-section="Currently"
+  data-page="V / VI"
+>
+  <div class="block reveal-slow" data-reveal-blur="10" data-reveal-offset="16">
+    <p class="lede">
+      Open for Q3 MMXXVI.<br />
+      Two slots, <em>both tracks.</em>
+    </p>
+    <p class="aside">
+      Write <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+    </p>
+  </div>
 </section>
 
 <style>
   .plate {
     min-height: calc(100vh - var(--frame-w) * 2);
-    padding: 64px 56px;
+    padding: 96px 56px 80px;
     border-bottom: 1px solid var(--rule-soft);
     position: relative;
     display: grid;
-    align-items: center;
+    align-content: end;
+    justify-content: start;
   }
 
-  .plate.statement {
-    display: grid;
-    place-items: center;
+  .block {
+    width: max-content;
+    max-width: 100%;
   }
 
-  .plate.statement p {
+  .lede {
     font-family: var(--display);
     font-weight: 200;
     font-size: clamp(36px, 5.6vw, 88px);
-    line-height: 1.1;
+    line-height: 1.06;
     letter-spacing: -0.03em;
-    text-align: center;
-    max-width: 16ch;
     color: var(--ink);
-    text-indent: -0.36em;
-    margin: 0 auto;
+    margin: 0;
   }
-  .plate.statement p :global(em) {
+  .lede :global(em) {
     font-weight: 300;
+  }
+
+  .aside {
+    margin: 28px 0 0;
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(16px, 1.4vw, 19px);
+    line-height: 1.45;
+    color: var(--ink-soft);
+    letter-spacing: 0.005em;
+  }
+  .aside a {
+    color: var(--ink);
+    font-style: italic;
+    transition: color 220ms ease;
+  }
+  .aside a:hover {
+    color: var(--ink-soft);
   }
 
   @media (max-width: 880px) {
     .plate {
-      padding: 40px 20px;
+      padding: 56px 20px 40px;
+    }
+    .lede {
+      font-size: clamp(32px, 8vw, 56px);
+    }
+    .aside {
+      font-size: 15px;
     }
   }
 </style>
