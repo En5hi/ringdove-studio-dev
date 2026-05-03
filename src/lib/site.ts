@@ -14,11 +14,7 @@ export const SITE = {
   },
   hero: {
     headline: 'Quiet design for digital products that <em>repay attention.</em>',
-    floor: {
-      left: 'A design studio',
-      center: 'Two disciplines, one standard.',
-      right: 'Est. MMXXIV',
-    },
+    caption: 'Two disciplines, <em>one standard.</em>',
   },
   contact: {
     write: { sub: 'For new work or a quiet conversation.' },
