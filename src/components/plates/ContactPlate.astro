@@ -3,8 +3,8 @@ import { SITE } from '../../lib/site';
 ---
 
 <section class="plate contact" id="contact" data-section="Contact" data-page="VI / VI">
-  <div class="word reveal">Rin<em>g</em>dove.</div>
-  <div class="info">
+  <div class="word" aria-hidden="true">Rin<em>g</em>dove.</div>
+  <div class="info reveal">
     <div class="col">
       <h4>Write</h4>
       <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
@@ -29,24 +29,35 @@ import { SITE } from '../../lib/site';
     padding: 64px 56px;
     border-bottom: 1px solid var(--rule-soft);
     position: relative;
-    display: grid;
-    align-items: center;
   }
 
+  /* Layered layout — wordmark drops to the bottom edge, info card overlaps
+     its lower portion. Both children share grid cell 1/1 so they stack. */
   .plate.contact {
-    grid-template-rows: 1fr auto;
-    align-items: stretch;
-    padding: 64px 56px 56px;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr;
+    padding: 64px 56px 0;
+  }
+  .word,
+  .info {
+    grid-row: 1;
+    grid-column: 1;
   }
 
   .word {
-    align-self: center;
+    align-self: end;
+    justify-self: stretch;
     font-family: var(--display);
     font-weight: 200;
-    font-size: clamp(72px, 12vw, 220px);
-    line-height: 0.84;
-    letter-spacing: -0.04em;
-    text-align: center;
+    font-size: clamp(120px, 22vw, 420px);
+    line-height: 0.82;
+    letter-spacing: -0.045em;
+    text-align: left;
+    color: var(--ink);
+    margin: 0;
+    user-select: none;
+    pointer-events: none;
   }
   .word :global(em) {
     font-weight: 300;
@@ -54,11 +65,21 @@ import { SITE } from '../../lib/site';
 
   .info {
     align-self: end;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 16px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 40px;
     padding-top: 24px;
     border-top: 1px solid var(--rule-soft);
+    /* Keep the info card legible where it overlaps the wordmark. */
+    background: linear-gradient(
+      to bottom,
+      rgba(10, 9, 7, 0) 0%,
+      var(--bg) 24%,
+      var(--bg) 100%
+    );
   }
 
   .col h4 {
@@ -92,12 +113,31 @@ import { SITE } from '../../lib/site';
   }
 
   @media (max-width: 880px) {
-    .plate {
+    /* Stack normally — overlap is illegible at small sizes. */
+    .plate.contact {
+      grid-template-rows: 1fr auto;
+      align-items: center;
       padding: 40px 20px;
+      gap: 32px;
+    }
+    .word,
+    .info {
+      grid-row: auto;
+      grid-column: auto;
+    }
+    .word {
+      align-self: center;
+      justify-self: center;
+      font-size: clamp(64px, 18vw, 120px);
+      text-align: center;
+      margin-bottom: 0;
     }
     .info {
+      align-self: end;
+      margin-bottom: 0;
       grid-template-columns: 1fr;
       gap: 24px;
+      background: none;
     }
   }
 </style>
