@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import HeroPlate from '../components/plates/HeroPlate.astro';
-import WorkPlate from '../components/plates/WorkPlate.astro';
+import WorkSticky from '../components/plates/WorkSticky.astro';
 import StudioPlate from '../components/plates/StudioPlate.astro';
 import StatementPlate from '../components/plates/StatementPlate.astro';
 import ContactPlate from '../components/plates/ContactPlate.astro';
@@ -33,7 +33,7 @@ const works = (await getCollection('work', ({ data }) => data.featured)).sort(
     })();
   </script>
   <HeroPlate />
-  {works.map((w) => <WorkPlate work={w} />)}
+  <WorkSticky works={works} />
   <StudioPlate />
   <StatementPlate />
   <ContactPlate />
