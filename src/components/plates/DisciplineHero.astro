@@ -1,0 +1,198 @@
+---
+interface Props {
+  /** Display title — raw HTML allowed for italic emphasis. */
+  title: string;
+  /** Italic lead under the title. Raw HTML allowed. */
+  lead: string;
+  /** Body paragraph beneath the lead. Raw HTML allowed. */
+  body: string;
+  /** Term + scope microcopy (mirrors the studio plate .nb line). */
+  scope: string;
+  /** Email address for the contact card. */
+  email: string;
+  /** Subject prefilled into the mailto link. */
+  emailSubject: string;
+  /** "Currently" headline for the contact card. */
+  currentlyHeadline: string;
+  /** "Currently" subline. */
+  currentlySub: string;
+  /** Frame data-section text. */
+  sectionLabel: string;
+  /** Frame data-page text (e.g. "I / III"). */
+  pageLabel: string;
+}
+const {
+  title,
+  lead,
+  body,
+  scope,
+  email,
+  emailSubject,
+  currentlyHeadline,
+  currentlySub,
+  sectionLabel,
+  pageLabel,
+} = Astro.props;
+const mailto = `mailto:${email}?subject=${encodeURIComponent(emailSubject)}`;
+---
+
+<section class="plate discipline" data-section={sectionLabel} data-page={pageLabel}>
+  <div class="layout">
+    <div class="head">
+      <span class="kicker">Discipline</span>
+      <h1 set:html={title} />
+      <p class="lead" set:html={lead} />
+    </div>
+
+    <div class="card reveal">
+      <p class="body" set:html={body} />
+      <p class="scope">{scope}</p>
+
+      <div class="contact">
+        <div class="col">
+          <h3>Write</h3>
+          <a href={mailto}>{email}</a>
+          <p class="s">For a quiet conversation about this work.</p>
+        </div>
+        <div class="col">
+          <h3>Currently</h3>
+          <p>{currentlyHeadline}</p>
+          <p class="s">{currentlySub}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .plate {
+    min-height: calc(100vh - var(--frame-w) * 2);
+    padding: 80px 56px 64px;
+    border-bottom: 1px solid var(--rule-soft);
+    position: relative;
+    display: grid;
+    align-items: center;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 96px;
+    align-items: center;
+    max-width: 1280px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .head .kicker {
+    display: block;
+    font-family: var(--body);
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 500;
+    margin-bottom: 24px;
+  }
+  .head h1 {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(48px, 7.4vw, 112px);
+    line-height: 0.96;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    margin-bottom: 28px;
+  }
+  .head h1 :global(em) {
+    font-weight: 400;
+  }
+  .head .lead {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 1.42;
+    color: var(--ink-soft);
+    max-width: 22ch;
+    letter-spacing: 0.005em;
+  }
+
+  .card {
+    padding: 32px 0 0;
+    border-top: 1px solid var(--rule);
+  }
+  .card .body {
+    font-family: var(--body);
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--ink);
+    max-width: 38ch;
+    margin-bottom: 20px;
+  }
+  .card .body :global(em) {
+    color: var(--ink);
+  }
+  .card .scope {
+    font-family: var(--body);
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    max-width: 38ch;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--rule-soft);
+    margin-bottom: 28px;
+  }
+
+  .contact {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  .contact .col h3 {
+    font-family: var(--body);
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+  .contact .col a,
+  .contact .col p {
+    display: block;
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: 18px;
+    letter-spacing: -0.012em;
+    line-height: 1.4;
+    transition: font-style 220ms ease;
+  }
+  .contact .col a:hover {
+    font-style: italic;
+  }
+  .contact .col .s {
+    font-family: var(--body);
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    margin-top: 4px;
+    font-weight: 400;
+  }
+
+  @media (max-width: 880px) {
+    .plate {
+      padding: 40px 20px;
+    }
+    .layout {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .head h1 {
+      font-size: clamp(40px, 11vw, 72px);
+    }
+    .contact {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+  }
+</style>

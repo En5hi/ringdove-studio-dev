@@ -1,4 +1,8 @@
 ---
+import { SITE } from '../../lib/site';
+
+const product = SITE.disciplines.product;
+const audio = SITE.disciplines.audio;
 ---
 
 <section
@@ -11,29 +15,73 @@
     <span class="l">Studio · Two disciplines</span>
     <span class="r"><em>One standard.</em></span>
   </div>
+
   <div class="body">
-    <div class="col">
-      <h3>Product <em>Design</em></h3>
-      <p>
-        For software founders building considered products. We work end to end from first sketches
-        through the design system that keeps the product coherent as it grows.
-        <em>We want to be useful early, when the decisions matter most.</em>
-      </p>
-      <p class="nb">
-        Identity · Product surface · Design system · Marketing site. Three to six months, embedded.
-      </p>
-    </div>
-    <div class="col">
-      <h3>Audio Plugin <em>Design</em></h3>
-      <p>
-        For plugin developers and audio software companies. We design plugin interfaces that respect
-        the workflow of the people using them, with brand and packaging that
-        <em>gives the plugin a place in the room.</em>
-      </p>
-      <p class="nb">
-        Plugin GUI · Brand · Packaging · Marketing site · Manual. Six to twelve weeks per plugin.
-      </p>
-    </div>
+    <a class="disc disc-left" href="/product" aria-label="See selected product work">
+      <svg
+        class="chev chev-left"
+        viewBox="0 0 10 18"
+        width="10"
+        height="18"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <polyline
+          points="7,3 3,9 7,15"
+          stroke="currentColor"
+          stroke-width="1.5"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          vector-effect="non-scaling-stroke"
+        />
+      </svg>
+
+      <span class="kicker">{product.kicker}</span>
+      <h3 set:html={product.cardTitle} />
+      <p class="lede">{product.lead}</p>
+      <p class="body-text" set:html={product.body} />
+      <dl class="meta">
+        <dt>Deliver</dt>
+        <dd>{product.deliver}</dd>
+        <dt>Term</dt>
+        <dd>{product.term}</dd>
+      </dl>
+      <span class="cta">{product.cta}</span>
+    </a>
+
+    <a class="disc disc-right" href="/audio" aria-label="See selected audio work">
+      <svg
+        class="chev chev-right"
+        viewBox="0 0 10 18"
+        width="10"
+        height="18"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <polyline
+          points="3,3 7,9 3,15"
+          stroke="currentColor"
+          stroke-width="1.5"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          vector-effect="non-scaling-stroke"
+        />
+      </svg>
+
+      <span class="kicker">{audio.kicker}</span>
+      <h3 set:html={audio.cardTitle} />
+      <p class="lede">{audio.lead}</p>
+      <p class="body-text" set:html={audio.body} />
+      <dl class="meta">
+        <dt>Deliver</dt>
+        <dd>{audio.deliver}</dd>
+        <dt>Term</dt>
+        <dd>{audio.term}</dd>
+      </dl>
+      <span class="cta">{audio.cta}</span>
+    </a>
   </div>
 </section>
 
@@ -49,7 +97,7 @@
 
   .plate.studio {
     grid-template-rows: auto 1fr auto;
-    padding: 56px 56px;
+    padding: 80px 56px;
     gap: 32px;
   }
 
@@ -60,11 +108,11 @@
   }
   .top .l {
     font-family: var(--body);
-    font-size: 10.5px;
+    font-size: 12px;
     letter-spacing: 0.22em;
     text-transform: uppercase;
     color: var(--ink-soft);
-    font-weight: 500;
+    font-weight: 400;
   }
   .top .r {
     font-family: var(--display);
@@ -74,58 +122,279 @@
     color: var(--ink-soft);
   }
 
+  /* Grid with explicit rows for kicker / h3 / lede / body / meta / cta.
+     Both .disc cards subgrid into these rows so each text block is
+     equal-height to its mirror — divider above .meta lines up exactly. */
   .body {
     align-self: center;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 96px;
-    max-width: 1100px;
+    grid-template-rows: auto auto auto auto auto auto;
+    column-gap: 160px;
+    row-gap: 0;
+    max-width: 1240px;
     margin: 0 auto;
     width: 100%;
   }
 
-  .col h3 {
+  .disc {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: subgrid;
+    grid-row: 1 / span 6;
+    position: relative;
+    color: inherit;
+    text-decoration: none;
+    transition:
+      opacity 320ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      filter 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  /* Mirror — text content leans toward the gap, outer side reserved for
+     wireframe + chevron. */
+  .disc-left {
+    justify-items: end;
+    text-align: right;
+  }
+  .disc-right {
+    justify-items: start;
+    text-align: left;
+  }
+
+  .kicker {
+    font-family: var(--body);
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 400;
+    margin-bottom: 18px;
+    align-self: end;
+  }
+
+  .disc h3 {
     font-family: var(--display);
     font-weight: 300;
-    font-size: clamp(32px, 3.8vw, 56px);
+    font-size: clamp(36px, 4.4vw, 64px);
     line-height: 0.98;
     letter-spacing: -0.025em;
-    margin-bottom: 28px;
+    color: var(--ink);
+    margin-bottom: 22px;
+    align-self: end;
   }
-  .col h3 :global(em) {
+  .disc h3 :global(em) {
     font-weight: 400;
-  }
-  .col p {
-    font-family: var(--display);
-    font-weight: 300;
-    font-size: 18px;
-    line-height: 1.5;
-    color: var(--ink);
-    max-width: 36ch;
-    letter-spacing: -0.003em;
-  }
-  .col p :global(em) {
-    color: var(--ink);
-  }
-  .col .nb {
-    margin-top: 24px;
-    padding-top: 16px;
-    border-top: 1px solid var(--rule-soft);
-    font-family: var(--body);
-    font-size: 13px;
     color: var(--ink-soft);
-    line-height: 1.5;
+    transition: color 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .lede {
+    font-family: var(--display);
+    font-style: italic;
     font-weight: 400;
+    font-size: 19px;
+    line-height: 1.42;
+    color: var(--ink-soft);
     max-width: 36ch;
+    letter-spacing: 0.005em;
+    margin-bottom: 22px;
+    align-self: start;
+  }
+
+  .body-text {
+    font-family: var(--body);
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--ink);
+    max-width: 36ch;
+    align-self: start;
+  }
+  .body-text :global(em) {
+    color: var(--ink);
+  }
+
+  /* Meta lets dd run as wide as its content (no wrap on the Deliver line),
+     so the divider above and the Deliver/Term values render uniformly. */
+  .meta {
+    padding-top: 28px;
+    margin-top: 28px;
+    border-top: 1px solid var(--rule-soft);
+    width: auto;
+    align-self: start;
+  }
+  .meta dt {
+    font-family: var(--body);
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .meta dd {
+    font-family: var(--body);
+    font-size: 13.5px;
+    color: var(--ink);
+    line-height: 1.5;
+    margin-bottom: 14px;
+    white-space: nowrap;
+  }
+  .meta dd:last-of-type {
+    margin-bottom: 0;
+  }
+
+  /* CTA — hidden at rest, fades up on card hover/focus. */
+  .cta {
+    display: block;
+    margin-top: 22px;
+    align-self: start;
+    font-family: var(--body);
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 400;
+    opacity: 0;
+    transform: translateY(4px);
+    transition:
+      opacity 320ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    will-change: opacity, transform;
+  }
+
+  /* Hairline chevron — between wireframe slot and text content,
+     points outward. Hidden at rest. */
+  .chev {
+    position: absolute;
+    top: 50%;
+    color: var(--ink-faint);
+    pointer-events: none;
+    opacity: 0;
+    transition:
+      opacity 320ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      color 320ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    will-change: opacity, transform;
+  }
+  /* Sit close to the column's outer edge — far from the right-aligned text,
+     just inboard of where the wireframe peeks past the page frame. */
+  .chev-left {
+    left: 12px;
+    transform: translate(0, -50%);
+  }
+  .chev-right {
+    right: 12px;
+    transform: translate(0, -50%);
+  }
+
+  /* Hover / focus states. */
+  .disc:hover h3 :global(em),
+  .disc:focus-visible h3 :global(em) {
+    color: var(--ink);
+  }
+  .disc:hover .cta,
+  .disc:focus-visible .cta {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .disc:hover .chev,
+  .disc:focus-visible .chev {
+    opacity: 1;
+    color: var(--ink-soft);
+  }
+  .disc-left:hover .chev-left,
+  .disc-left:focus-visible .chev-left {
+    transform: translate(-10px, -50%);
+  }
+  .disc-right:hover .chev-right,
+  .disc-right:focus-visible .chev-right {
+    transform: translate(10px, -50%);
+  }
+  /* Suppress the default focus ring on the card link itself; the focus
+     state is communicated through the same hover sequence. */
+  .disc:focus-visible {
+    outline: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .disc,
+    .disc h3 :global(em),
+    .cta,
+    .chev {
+      transition-duration: 0.001ms;
+    }
   }
 
   @media (max-width: 880px) {
-    .plate {
+    .plate.studio {
       padding: 40px 20px;
     }
+    /* Drop the subgrid for mobile — single column, each card is its own
+       block stack with normal flow. */
     .body {
-      grid-template-columns: 1fr;
-      gap: 48px;
+      display: block;
+      grid-template-columns: none;
+      grid-template-rows: none;
+      max-width: 100%;
+    }
+    .disc {
+      display: block;
+      grid-row: auto;
+      grid-template-rows: none;
+      min-height: 0;
+      margin-bottom: 64px;
+    }
+    .disc:last-child {
+      margin-bottom: 0;
+    }
+    /* Stacked layout: cards left-align, wireframes + chevrons hidden,
+       CTA always visible (no hover on touch). */
+    .disc-left,
+    .disc-right {
+      justify-items: start;
+      text-align: left;
+    }
+    .chev {
+      display: none;
+    }
+    .cta {
+      opacity: 1;
+      transform: none;
+    }
+    /* Mobile screens are too narrow to keep the Deliver line on one line —
+       allow normal wrapping when stacked. */
+    .meta dd {
+      white-space: normal;
+    }
+  }
+</style>
+
+<!--
+  Astro's scoped-CSS pass mishandles `.body:has(.disc:hover) .disc:not(:hover)`
+  selectors — it drops the :has() parent from compound selectors, which would
+  leave `.disc:not(:hover)` matching both cards at rest. We declare the
+  inactive-card recede in a global block, namespaced tight enough to not leak.
+-->
+<style is:global>
+  .plate.studio .body:has(.disc:hover) .disc:not(:hover),
+  .plate.studio .body:has(.disc:focus-visible) .disc:not(:focus-visible) {
+    opacity: 0.55;
+    filter: blur(1px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .plate.studio .body:has(.disc:hover) .disc:not(:hover),
+    .plate.studio .body:has(.disc:focus-visible) .disc:not(:focus-visible) {
+      filter: none;
+    }
+  }
+
+  @media (max-width: 880px) {
+    .plate.studio .body:has(.disc:hover) .disc:not(:hover),
+    .plate.studio .body:has(.disc:focus-visible) .disc:not(:focus-visible) {
+      opacity: 1;
+      filter: none;
     }
   }
 </style>

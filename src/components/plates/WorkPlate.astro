@@ -8,17 +8,36 @@ import HalftoneImage from '../work-images/HalftoneImage.astro';
 
 interface Props {
   work: CollectionEntry<'work'>;
+  /** 1-based numeral used in the section label (defaults to work.order). */
+  sectionNumber?: number;
+  /** 1-based numeral used in the page counter (defaults to work.order + 1, matching the homepage). */
+  pageNumber?: number;
+  /** Roman denominator after the slash (defaults to 'VI', matching the homepage). */
+  pageTotal?: string;
+  /** Prefix in the section label (defaults to 'Selected Work'). */
+  sectionPrefix?: string;
+  /** id attribute on the section element. Set to 'work' on the first entry of the homepage by default. */
+  sectionId?: string;
 }
-const { work } = Astro.props;
+const {
+  work,
+  sectionNumber,
+  pageNumber,
+  pageTotal = 'VI',
+  sectionPrefix = 'Selected Work',
+  sectionId,
+} = Astro.props;
 const { titlePlain, title, pretitle, lede, summary, deliverables, term, status, order, image, variant } =
   work.data;
 
-const sectionLabel = `${ROMAN[order] ?? order}. Selected Work — ${titlePlain}`;
-const pageLabel = `${ROMAN[order + 1] ?? order + 1} / VI`;
-const sectionId = order === 1 ? 'work' : undefined;
+const secNum = sectionNumber ?? order;
+const pageNum = pageNumber ?? order + 1;
+const sectionLabel = `${ROMAN[secNum] ?? secNum}. ${sectionPrefix} — ${titlePlain}`;
+const pageLabel = `${ROMAN[pageNum] ?? pageNum} / ${pageTotal}`;
+const resolvedSectionId = sectionId ?? (order === 1 && pageNumber === undefined ? 'work' : undefined);
 ---
 
-<section class="plate work" id={sectionId} data-section={sectionLabel} data-page={pageLabel}>
+<section class="plate work" id={resolvedSectionId} data-section={sectionLabel} data-page={pageLabel}>
   <div class:list={['layout', variant === 'right' && 'reversed']}>
     {image === 'spire' && <SpireImage class="reveal" />}
     {image === 'lattice' && <LatticeImage class="reveal" />}
@@ -75,7 +94,7 @@ const sectionId = order === 1 ? 'work' : undefined;
   }
   .pretitle {
     font-family: var(--body);
-    font-size: 10.5px;
+    font-size: 12px;
     letter-spacing: 0.22em;
     text-transform: uppercase;
     color: var(--ink-soft);
@@ -129,7 +148,7 @@ const sectionId = order === 1 ? 'work' : undefined;
     color: var(--ink-soft);
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    font-size: 10.5px;
+    font-size: 12px;
     font-weight: 500;
     padding-top: 2px;
   }

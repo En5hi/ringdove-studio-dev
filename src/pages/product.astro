@@ -1,0 +1,46 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import DisciplineHero from '../components/plates/DisciplineHero.astro';
+import WorkPlate from '../components/plates/WorkPlate.astro';
+import { SITE, ROMAN } from '../lib/site';
+
+const d = SITE.disciplines.product;
+
+const works = (await getCollection('work', ({ data }) => data.discipline === 'product')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+const totalPlates = 1 + works.length;
+const pageTotal = ROMAN[totalPlates] ?? String(totalPlates);
+---
+
+<Base
+  title={d.titlePlain}
+  description={`${d.titlePlain} engagements at Ringdove — ${d.scope}`}
+>
+  <DisciplineHero
+    title={d.title}
+    lead={d.lead}
+    body={d.body}
+    scope={d.scope}
+    email={SITE.email}
+    emailSubject={d.emailSubject}
+    currentlyHeadline={d.currentlyHeadline}
+    currentlySub={d.currentlySub}
+    sectionLabel={d.titlePlain}
+    pageLabel={`I / ${pageTotal}`}
+  />
+
+  {
+    works.map((w, i) => (
+      <WorkPlate
+        work={w}
+        sectionNumber={i + 1}
+        pageNumber={i + 2}
+        pageTotal={pageTotal}
+        sectionPrefix="Selected Product Work"
+      />
+    ))
+  }
+</Base>

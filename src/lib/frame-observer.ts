@@ -2,6 +2,14 @@ const sectionEl = document.getElementById('section-name');
 const pageEl = document.getElementById('page-counter');
 
 if (sectionEl && pageEl) {
+  // Seed the frame's section + counter from the first plate on the page so the
+  // initial paint is correct on every route (discipline pages, /404, etc.).
+  const firstPlate = document.querySelector<HTMLElement>('[data-section]');
+  if (firstPlate) {
+    if (firstPlate.dataset.section) sectionEl.innerHTML = firstPlate.dataset.section;
+    if (firstPlate.dataset.page) pageEl.textContent = `Plate ${firstPlate.dataset.page}`;
+  }
+
   const io = new IntersectionObserver(
     (entries) => {
       for (const e of entries) {
