@@ -24,9 +24,19 @@ if (root) {
   const pageEl = document.getElementById('page-counter');
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  let active = 0;
+  let active = -1;
+
+  const writeFrame = (slide: HTMLElement) => {
+    if (sectionEl && slide.dataset.section) sectionEl.innerHTML = slide.dataset.section;
+    if (pageEl && slide.dataset.page) pageEl.textContent = `Plate ${slide.dataset.page}`;
+  };
 
   const setActive = (idx: number) => {
+    // Always write the frame on intersect, even when the active slide is
+    // unchanged — that way scrolling back into the section from below
+    // restores the per-project label even though state didn't change.
+    writeFrame(slides[idx]);
+
     if (idx === active) return;
     active = idx;
 
@@ -44,10 +54,6 @@ if (root) {
         else slides[i].setAttribute('data-inactive', 'true');
       }
     }
-
-    const slide = slides[idx];
-    if (sectionEl && slide.dataset.section) sectionEl.innerHTML = slide.dataset.section;
-    if (pageEl && slide.dataset.page) pageEl.textContent = `Plate ${slide.dataset.page}`;
   };
 
   // Seed the initial inactive state — under normal motion all but the first
@@ -75,22 +81,4 @@ if (root) {
   );
 
   for (const s of slides) io.observe(s);
-
-  // When the user enters the section, seed the frame from the active slide so
-  // the section label / page counter are correct on first paint.
-  const seedIo = new IntersectionObserver(
-    (entries) => {
-      for (const e of entries) {
-        if (e.isIntersecting) {
-          const slide = slides[active];
-          if (slide && sectionEl && slide.dataset.section)
-            sectionEl.innerHTML = slide.dataset.section;
-          if (slide && pageEl && slide.dataset.page)
-            pageEl.textContent = `Plate ${slide.dataset.page}`;
-        }
-      }
-    },
-    { threshold: 0 },
-  );
-  seedIo.observe(root);
 }
