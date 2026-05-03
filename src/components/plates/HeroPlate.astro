@@ -1,68 +1,88 @@
 ---
 import { SITE } from '../../lib/site';
 
-const tokens = SITE.hero.headline.match(/<em>.*?<\/em>|\S+/g) ?? [];
+// Three explicit lines so the headline reads in the studio's intended
+// rhythm regardless of viewport width. Each line is `white-space: nowrap`
+// so the words inside it don't break.
+const lines: string[][] = [
+  ['Quiet', 'design'],
+  ['for', 'digital', 'products'],
+  ['that', '<em>repay attention.</em>'],
+];
+
+let wordIndex = 0;
+const linesWithDelays = lines.map((line) =>
+  line.map((word) => ({ word, delay: wordIndex++ * 80 })),
+);
+
 const sectionLabel = SITE.hero.headline.replace(/\.<\/em>$/, '</em>');
 ---
 
 <section class="plate hero" data-section={sectionLabel} data-page="I / VI">
-  <h1>
-    {
-      tokens.map((tok, i) => (
-        <>
-          {i > 0 && ' '}
-          <span class="w" style={`--d: ${i * 80}ms`} set:html={tok} />
-        </>
-      ))
-    }
-  </h1>
-  <div class="floor">
-    <span>{SITE.hero.floor.left}</span>
-    <em>{SITE.hero.floor.center}</em>
-    <span>{SITE.hero.floor.right}</span>
+  <div class="block">
+    <h1>
+      {
+        linesWithDelays.map((line) => (
+          <span class="hl-row" style="display: block; white-space: nowrap;">
+            {line.map(({ word, delay }, j) => (
+              <>
+                {j > 0 && ' '}
+                <span class="w" style={`--d: ${delay}ms`} set:html={word} />
+              </>
+            ))}
+          </span>
+        ))
+      }
+    </h1>
+    <p class="caption" set:html={SITE.hero.caption} />
   </div>
 </section>
 
 <style>
   .plate {
     min-height: calc(100vh - var(--frame-w) * 2);
-    padding: 64px 56px;
+    padding: 96px 56px 80px;
     border-bottom: 1px solid var(--rule-soft);
     position: relative;
     display: grid;
-    align-items: center;
+    place-items: end start;
   }
 
-  .plate.hero {
-    grid-template-rows: 1fr auto;
-    align-items: stretch;
-    padding: 80px 56px;
+  .block {
+    width: max-content;
+    max-width: 100%;
   }
 
-  .plate.hero h1 {
-    align-self: center;
+  h1 {
     font-family: var(--display);
     font-weight: 200;
-    font-size: clamp(56px, 9.6vw, 168px);
-    line-height: 0.94;
-    letter-spacing: -0.035em;
-    text-align: center;
-    max-width: 14ch;
+    font-size: clamp(56px, 7vw, 112px);
+    line-height: 1;
+    letter-spacing: -0.025em;
     color: var(--ink);
-    margin: 0 auto;
+    text-align: left;
+    margin: 0;
   }
 
-  .plate.hero h1 :global(em) {
+  h1 :global(em) {
     font-weight: 300;
   }
 
-  /* Word-by-word rise on first paint, resolving from out-of-focus into focus.
-     ~80ms stagger × 6 + 720ms ≈ 1200ms total. */
+  /* Force the three intended lines — each .hl-row is its own block-level
+     run with no internal wrapping. Inline style on the element duplicates
+     this so it survives a stale-CSS cache. */
+  .hl-row {
+    display: block;
+    white-space: nowrap;
+  }
+
+  /* Word-by-word rise resolving from blur. Stagger continues across line
+     breaks so the whole headline reads top-to-bottom. ~80ms × 6 + 720ms ≈ 1200ms total. */
   .w {
     display: inline-block;
     opacity: 0;
-    transform: translateY(40px);
-    filter: blur(8px);
+    transform: translateY(24px);
+    filter: blur(6px);
     animation: word-rise 720ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
     animation-delay: var(--d, 0ms);
     will-change: opacity, transform, filter;
@@ -70,8 +90,8 @@ const sectionLabel = SITE.hero.headline.replace(/\.<\/em>$/, '</em>');
   @keyframes word-rise {
     from {
       opacity: 0;
-      transform: translateY(40px);
-      filter: blur(8px);
+      transform: translateY(24px);
+      filter: blur(6px);
     }
     to {
       opacity: 1;
@@ -80,38 +100,33 @@ const sectionLabel = SITE.hero.headline.replace(/\.<\/em>$/, '</em>');
     }
   }
 
-  .plate.hero .floor {
-    align-self: end;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding-top: 24px;
-    border-top: 1px solid var(--rule-soft);
-  }
-  .plate.hero .floor span {
-    font-family: var(--body);
-    font-size: 12px;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-    font-weight: 500;
-  }
-  .plate.hero .floor :global(em) {
+  /* Italic caption — quiet aside in the studio voice. */
+  .caption {
+    margin-top: 28px;
     font-family: var(--display);
     font-style: italic;
     font-weight: 300;
-    text-transform: none;
-    letter-spacing: 0.01em;
-    font-size: 13px;
+    font-size: clamp(16px, 1.4vw, 19px);
+    line-height: 1.45;
     color: var(--ink-soft);
+    letter-spacing: 0.005em;
+    text-align: left;
+  }
+  .caption :global(em) {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--ink);
   }
 
   @media (max-width: 880px) {
     .plate {
-      padding: 40px 20px;
+      padding: 56px 20px 40px;
     }
-    .plate.hero h1 {
-      font-size: clamp(40px, 13vw, 96px);
+    h1 {
+      font-size: clamp(40px, 10vw, 68px);
+    }
+    .caption {
+      font-size: 15px;
     }
   }
 </style>
