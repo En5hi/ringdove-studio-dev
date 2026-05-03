@@ -81,8 +81,11 @@ const resolvedSectionId = sectionId ?? (order === 1 && pageNumber === undefined 
     width: 100%;
   }
 
-  /* Image is rendered as a child component with its own .image class. */
+  /* Image is rendered as a child component with its own .image class.
+     The 480px cap lives here (rather than inside the image components)
+     so the homepage sticky-scroll stage can render the image larger. */
   .layout :global(.image) {
+    max-width: 480px;
     justify-self: end;
   }
 
