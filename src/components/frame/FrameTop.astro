@@ -33,13 +33,13 @@ import { SITE } from '../../lib/site';
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    padding: 0 16px;
+    padding: 0 var(--frame-w);
   }
 
   .wordmark {
     font-family: var(--display);
     font-weight: 400;
-    font-size: 17px;
+    font-size: var(--frame-wordmark);
     letter-spacing: -0.005em;
     color: var(--ink);
     padding: 0 8px;
@@ -52,7 +52,7 @@ import { SITE } from '../../lib/site';
     font-family: var(--display);
     font-style: italic;
     font-weight: 300;
-    font-size: 13px;
+    font-size: var(--frame-counter);
     color: var(--ink-soft);
     letter-spacing: 0.01em;
     text-align: center;
@@ -72,7 +72,7 @@ import { SITE } from '../../lib/site';
   }
   .nav a {
     font-family: var(--body);
-    font-size: 12px;
+    font-size: var(--frame-nav);
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--ink-soft);
@@ -83,11 +83,14 @@ import { SITE } from '../../lib/site';
     color: var(--ink);
   }
 
-  /* Corner ticks — 9×9 plus-mark register marks at the inner corners. */
+  /* Corner ticks — 9×9 plus-mark register marks at the inner corners.
+     z-index lifts them above sibling content (wordmark / nav) which would
+     otherwise overlap the corner regions and mask the ticks. */
   .frame-top::before,
   .frame-top::after {
     content: '';
     position: absolute;
+    z-index: 1;
     width: 9px;
     height: 9px;
     background:
@@ -105,7 +108,7 @@ import { SITE } from '../../lib/site';
 
   @media (max-width: 880px) {
     .frame-top {
-      padding: 0 8px;
+      padding: 0 var(--frame-w);
     }
     .wordmark {
       font-size: 14px;
@@ -119,7 +122,6 @@ import { SITE } from '../../lib/site';
       padding: 0 4px;
     }
     .nav a {
-      font-size: 12px;
       letter-spacing: 0.16em;
     }
   }

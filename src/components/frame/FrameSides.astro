@@ -43,7 +43,7 @@ import { SITE } from '../../lib/site';
     writing-mode: vertical-rl;
     transform: rotate(180deg);
     font-family: var(--body);
-    font-size: 12px;
+    font-size: var(--frame-vert);
     letter-spacing: 0.3em;
     text-transform: uppercase;
     color: var(--ink-soft);
@@ -53,7 +53,7 @@ import { SITE } from '../../lib/site';
   .frame-right .vert {
     writing-mode: vertical-rl;
     font-family: var(--body);
-    font-size: 12px;
+    font-size: var(--frame-vert);
     letter-spacing: 0.3em;
     text-transform: uppercase;
     color: var(--ink-soft);
@@ -63,7 +63,6 @@ import { SITE } from '../../lib/site';
   @media (max-width: 880px) {
     .frame-left .vert,
     .frame-right .vert {
-      font-size: 12px;
       letter-spacing: 0.2em;
     }
   }
