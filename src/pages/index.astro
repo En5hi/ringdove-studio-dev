@@ -6,6 +6,9 @@ import WorkPlate from '../components/plates/WorkPlate.astro';
 import StudioPlate from '../components/plates/StudioPlate.astro';
 import StatementPlate from '../components/plates/StatementPlate.astro';
 import ContactPlate from '../components/plates/ContactPlate.astro';
+import BackgroundA from '../components/background/BackgroundA.astro';
+import BackgroundB from '../components/background/BackgroundB.astro';
+import BackgroundC from '../components/background/BackgroundC.astro';
 
 const works = (await getCollection('work', ({ data }) => data.featured)).sort(
   (a, b) => a.data.order - b.data.order,
@@ -13,9 +16,31 @@ const works = (await getCollection('work', ({ data }) => data.featured)).sort(
 ---
 
 <Base>
+  <div class="bg-slot" data-bg="a"><BackgroundA /></div>
+  <div class="bg-slot" data-bg="b"><BackgroundB /></div>
+  <div class="bg-slot" data-bg="c"><BackgroundC /></div>
+  <script is:inline>
+    // Background concept toggle — ?bg=a|b|c. Removes inactive concept slots
+    // synchronously at parse-time (this script sits after the slots and
+    // before any other script tags), so the WebGL bundles for B / C don't
+    // find their canvases when they're not selected. Default removes all three.
+    (function () {
+      var bg = new URLSearchParams(location.search).get('bg');
+      var slots = document.querySelectorAll('.bg-slot');
+      for (var i = 0; i < slots.length; i++) {
+        if (slots[i].getAttribute('data-bg') !== bg) slots[i].remove();
+      }
+    })();
+  </script>
   <HeroPlate />
   {works.map((w) => <WorkPlate work={w} />)}
   <StudioPlate />
   <StatementPlate />
   <ContactPlate />
 </Base>
+
+<style>
+  .bg-slot {
+    display: contents;
+  }
+</style>

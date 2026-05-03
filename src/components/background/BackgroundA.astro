@@ -1,0 +1,72 @@
+---
+/* Concept A — CSS / SVG only.
+   Slow-rotating typographic ring tucked into the bottom-right corner.
+   Declarative SMIL rotation, ink-soft tint, no JS render loop. */
+---
+
+<div class="bg-a" aria-hidden="true">
+  <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <path
+        id="bg-a-ring"
+        d="M 200 200 m -160 0 a 160 160 0 1 1 320 0 a 160 160 0 1 1 -320 0"
+        fill="none"
+      />
+    </defs>
+    <g class="rotor">
+      <text class="ring-text" textLength="1004">
+        <textPath href="#bg-a-ring" startOffset="0">
+          Currently designing for Polyphon &#183; Lattice &#183; Open for Q3 MMXXVI &#183;
+          Currently designing for Polyphon &#183; Lattice &#183; Open for Q3 MMXXVI &#183;
+        </textPath>
+      </text>
+    </g>
+  </svg>
+</div>
+
+<style>
+  .bg-a {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .bg-a svg {
+    position: absolute;
+    bottom: -18vmin;
+    right: -18vmin;
+    width: 70vmin;
+    height: 70vmin;
+    opacity: 0.55;
+  }
+
+  .rotor {
+    transform-origin: 200px 200px;
+    animation: bg-a-spin 90s linear infinite;
+  }
+
+  .ring-text {
+    font-family: var(--body);
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    fill: var(--ink-soft);
+  }
+
+  @keyframes bg-a-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rotor {
+      animation: none;
+    }
+  }
+</style>
