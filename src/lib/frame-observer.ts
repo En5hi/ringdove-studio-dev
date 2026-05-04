@@ -10,7 +10,10 @@ if (sectionEl && pageEl) {
     '[data-section]:not([data-frame-skip])',
   );
   if (firstPlate) {
-    if (firstPlate.dataset.section) sectionEl.innerHTML = firstPlate.dataset.section;
+    // Use the attribute's presence rather than truthiness — a plate may
+    // intentionally publish an empty section label (the hero, for one).
+    if (firstPlate.dataset.section !== undefined)
+      sectionEl.innerHTML = firstPlate.dataset.section;
     if (firstPlate.dataset.page) pageEl.textContent = `Plate ${firstPlate.dataset.page}`;
   }
 
@@ -21,7 +24,7 @@ if (sectionEl && pageEl) {
           const target = e.target as HTMLElement;
           const sec = target.dataset.section;
           const page = target.dataset.page;
-          if (sec) sectionEl.innerHTML = sec;
+          if (sec !== undefined) sectionEl.innerHTML = sec;
           if (page) pageEl.textContent = `Plate ${page}`;
         }
       }

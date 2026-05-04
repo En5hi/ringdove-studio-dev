@@ -1,6 +1,4 @@
 ---
-import { SITE } from '../../lib/site';
-
 // Three explicit lines so the headline reads in the studio's intended
 // rhythm regardless of viewport width. Each line is `white-space: nowrap`
 // so the words inside it don't break.
@@ -14,11 +12,9 @@ let wordIndex = 0;
 const linesWithDelays = lines.map((line) =>
   line.map((word) => ({ word, delay: wordIndex++ * 80 })),
 );
-
-const sectionLabel = SITE.hero.headline.replace(/\.<\/em>$/, '</em>');
 ---
 
-<section class="plate hero" data-section={sectionLabel} data-page="I / VI">
+<section class="plate hero" data-section="" data-page="I / VI">
   <div class="block">
     <h1>
       {

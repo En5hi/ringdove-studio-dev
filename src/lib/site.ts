@@ -6,11 +6,10 @@ export const SITE = {
     'A craft-led design studio for product interfaces and audio plugin design. Two disciplines, one standard.',
   email: 'hello@ringdove.studio',
   location: 'Kraków, Poland',
-  coords: '50.0647° N · 19.9450° E',
-  colophon: 'Set in Times & Author · MMXXVI',
+  status: 'Open for Q3',
   side: {
-    left: 'A design studio · Currently designing for Polyphon & Lattice · Open for Q3',
-    right: 'Located in Kraków · CET · Working remotely · Issue Nº 04 · Spring 2026',
+    left: 'A design studio · Currently designing for Polyphon & Lattice',
+    right: 'Located in Kraków · 50.0647° N · 19.9450° E · CET · Working remotely',
   },
   hero: {
     headline: 'Quiet design for digital products that <em>repay attention.</em>',
