@@ -6,8 +6,6 @@ interface Props {
   lead: string;
   /** Body paragraph beneath the lead. Raw HTML allowed. */
   body: string;
-  /** Term + scope microcopy (mirrors the studio plate .nb line). */
-  scope: string;
   /** Email address for the contact card. */
   email: string;
   /** Subject prefilled into the mailto link. */
@@ -25,7 +23,6 @@ const {
   title,
   lead,
   body,
-  scope,
   email,
   emailSubject,
   currentlyHeadline,
@@ -46,7 +43,6 @@ const mailto = `mailto:${email}?subject=${encodeURIComponent(emailSubject)}`;
 
     <div class="card reveal">
       <p class="body" set:html={body} />
-      <p class="scope">{scope}</p>
 
       <div class="contact">
         <div class="col">
@@ -128,20 +124,17 @@ const mailto = `mailto:${email}?subject=${encodeURIComponent(emailSubject)}`;
     line-height: 1.65;
     color: var(--ink);
     max-width: 38ch;
-    margin-bottom: 20px;
-  }
-  .card .body :global(em) {
-    color: var(--ink);
-  }
-  .card .scope {
-    font-family: var(--body);
-    font-size: 13px;
-    color: var(--ink-soft);
-    line-height: 1.55;
-    max-width: 38ch;
     padding-bottom: 28px;
     border-bottom: 1px solid var(--rule-soft);
     margin-bottom: 28px;
+  }
+  /* Family stays Author inside the body paragraph — em uses Author italic
+     so it doesn't switch to display in the middle of body type. */
+  .card .body :global(em) {
+    font-family: var(--body);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--ink);
   }
 
   .contact {

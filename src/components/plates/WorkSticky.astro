@@ -227,7 +227,12 @@ const slides = works.map((w) => {
     color: var(--ink);
     margin-bottom: 32px;
   }
+  /* Family stays Author inside the body paragraph — em uses Author italic
+     so it doesn't switch to display in the middle of body type. */
   .body :global(em) {
+    font-family: var(--body);
+    font-style: italic;
+    font-weight: 400;
     color: var(--ink);
   }
   .meta {
