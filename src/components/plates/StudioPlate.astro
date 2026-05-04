@@ -44,8 +44,6 @@ const audio = SITE.disciplines.audio;
       <dl class="meta">
         <dt>Deliver</dt>
         <dd>{product.deliver}</dd>
-        <dt>Term</dt>
-        <dd>{product.term}</dd>
       </dl>
       <span class="cta">{product.cta}</span>
     </a>
@@ -77,8 +75,6 @@ const audio = SITE.disciplines.audio;
       <dl class="meta">
         <dt>Deliver</dt>
         <dd>{audio.deliver}</dd>
-        <dt>Term</dt>
-        <dd>{audio.term}</dd>
       </dl>
       <span class="cta">{audio.cta}</span>
     </a>
@@ -210,7 +206,14 @@ const audio = SITE.disciplines.audio;
     max-width: 36ch;
     align-self: start;
   }
+  /* Inside an Author paragraph, em stays in Author italic — the family-mix
+     between Author roman and Times italic in the same paragraph is too loud
+     for this register. The studio rule (italic = the only emphasis device)
+     still holds; the family just stays consistent within the body block. */
   .body-text :global(em) {
+    font-family: var(--body);
+    font-style: italic;
+    font-weight: 400;
     color: var(--ink);
   }
 
