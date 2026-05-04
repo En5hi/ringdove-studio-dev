@@ -163,7 +163,10 @@ const slides = works.map((w) => {
     align-self: start;
   }
   .copy-slide {
-    min-height: calc(100vh - var(--frame-w) * 2);
+    /* Tighter than the rest of the plates — four projects, four full
+       viewports of scroll was too much. ~70% gives the active-state
+       observer enough travel without the section dragging on. */
+    min-height: 70vh;
     display: flex;
     align-items: center;
     transition:
