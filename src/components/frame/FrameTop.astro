@@ -2,7 +2,9 @@
 ---
 
 <div class="frame-edge frame-top">
-  <div class="wordmark">Rin<em>g</em>dove</div>
+  <a class="wordmark" href="/" data-wordmark aria-label="Ringdove — back to home">
+    Rin<em>g</em>dove
+  </a>
   <div class="section" id="section-name"></div>
   <nav class="nav" aria-label="Primary">
     <a href="/#work">Work</a>
@@ -10,6 +12,21 @@
     <a href="/#contact">Contact</a>
   </nav>
 </div>
+
+<script>
+  // Wordmark behavior: on / it scrolls to the top; on any other route it
+  // navigates to / as a normal anchor. Honors prefers-reduced-motion.
+  const link = document.querySelector<HTMLAnchorElement>('[data-wordmark]');
+  if (link) {
+    link.addEventListener('click', (e) => {
+      if (location.pathname === '/' || location.pathname === '') {
+        e.preventDefault();
+        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
+      }
+    });
+  }
+</script>
 
 <style>
   .frame-edge {
@@ -28,6 +45,9 @@
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
     padding: 0 var(--frame-w);
+    /* One step above frame-sides (z-index 100) so the corner ticks render
+       cleanly over the side panels at the top corners. */
+    z-index: 101;
   }
 
   .wordmark {
@@ -37,6 +57,11 @@
     letter-spacing: -0.005em;
     color: var(--ink);
     padding: 0 8px;
+    text-decoration: none;
+    transition: color 220ms ease;
+  }
+  .wordmark:hover {
+    color: var(--ink-soft);
   }
   .wordmark :global(em) {
     font-weight: 400;

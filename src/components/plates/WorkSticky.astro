@@ -22,7 +22,6 @@ const slides = works.map((w) => {
   return {
     work: w,
     image,
-    counterLabel: `${num}. ${titlePlain}`,
     sectionLabel: `${num}. Selected Work — ${titlePlain}`,
     pageLabel: `${pageNum} / ${pageTotal}`,
   };
@@ -37,16 +36,6 @@ const slides = works.map((w) => {
   data-frame-skip
 >
   <div class="track">
-    <ol class="counter" aria-label="Selected work">
-      {
-        slides.map((s, i) => (
-          <li data-idx={i} aria-current={i === 0 ? 'true' : undefined}>
-            {s.counterLabel}
-          </li>
-        ))
-      }
-    </ol>
-
     <ol class="copy-track">
       {
         slides.map((s, i) => {
@@ -112,50 +101,21 @@ const slides = works.map((w) => {
     border-bottom: 1px solid var(--rule-soft);
   }
 
+  /* Two columns now (counter removed): copy on the left, sticky image on
+     the right. Each copy slide is the height of the viewport content area
+     so the slide centre lines up with the sticky image centre — that way
+     the first and last project don't read mid-air. */
   .track {
     display: grid;
-    grid-template-columns: 200px minmax(0, 440px) minmax(360px, 1fr);
-    gap: 80px;
+    grid-template-columns: minmax(0, 480px) minmax(360px, 1fr);
+    gap: 96px;
     padding: 0 56px;
-    max-width: 1480px;
+    max-width: 1320px;
     margin: 0 auto;
   }
 
-  /* Sticky counter — column 1. */
-  .counter {
-    grid-column: 1;
-    grid-row: 1;
-    position: sticky;
-    top: var(--frame-w);
-    align-self: start;
-    height: calc(100vh - var(--frame-w) * 2);
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 18px;
-  }
-  .counter li {
-    font-family: var(--display);
-    font-weight: 300;
-    font-size: 19px;
-    line-height: 1.2;
-    color: var(--ink-faint);
-    letter-spacing: -0.005em;
-    transition:
-      color 280ms cubic-bezier(0.2, 0.8, 0.2, 1),
-      font-style 280ms cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-  .counter li[aria-current='true'] {
-    color: var(--ink);
-    font-style: italic;
-  }
-
-  /* Scrolling copy column — middle. Each slide is one viewport tall. */
   .copy-track {
-    grid-column: 2;
+    grid-column: 1;
     grid-row: 1;
     margin: 0;
     padding: 0;
@@ -163,10 +123,10 @@ const slides = works.map((w) => {
     align-self: start;
   }
   .copy-slide {
-    /* Tighter than the rest of the plates — four projects, four full
-       viewports of scroll was too much. ~70% gives the active-state
-       observer enough travel without the section dragging on. */
-    min-height: 70vh;
+    /* Match the viewport content area exactly so each project's copy
+       centres against the sticky image. Anything shorter (e.g. 70vh)
+       leaves the first/last project visually offset from the image. */
+    min-height: calc(100vh - var(--frame-w) * 2);
     display: flex;
     align-items: center;
     transition:
@@ -178,7 +138,7 @@ const slides = works.map((w) => {
     filter: blur(2px);
   }
   .copy-slide .inline-image {
-    /* Desktop renders the sticky image in column 3; the inline copy of the
+    /* Desktop renders the sticky image in column 2; the inline copy of the
        image only appears in the stacked mobile fallback. */
     display: none;
   }
@@ -257,10 +217,10 @@ const slides = works.map((w) => {
     color: var(--ink);
   }
 
-  /* Sticky image stage — column 3. Images are stacked absolutely so a
+  /* Sticky image stage — column 2. Images are stacked absolutely so a
      cross-fade can keep both images alive during the transition. */
   .stage {
-    grid-column: 3;
+    grid-column: 2;
     grid-row: 1;
     position: sticky;
     top: var(--frame-w);
@@ -302,9 +262,6 @@ const slides = works.map((w) => {
       opacity: 1;
       filter: none;
     }
-    .counter li {
-      transition: none;
-    }
   }
 
   /* Mobile fallback — drop the sticky mechanics entirely. Each slide reads
@@ -317,9 +274,6 @@ const slides = works.map((w) => {
       display: block;
       padding: 0 20px;
       gap: 0;
-    }
-    .counter {
-      display: none;
     }
     .stage {
       display: none;

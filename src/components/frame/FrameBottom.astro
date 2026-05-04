@@ -25,6 +25,9 @@ import { SITE } from '../../lib/site';
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
     padding: 0 var(--frame-w);
+    /* Above frame-sides (z-index 100) so the bottom corner ticks render
+       cleanly over the side panels at the bottom corners. */
+    z-index: 101;
   }
 
   .l,

@@ -3,8 +3,7 @@
  *
  * Watches each `.copy-slide` inside `.work-sticky` and, when one crosses the
  * viewport's centre band, marks it active. The active idx propagates to:
- *   - the sticky counter (left column) — `[aria-current="true"]`
- *   - the sticky image stack (right column) — `[data-active]` on the matching slot
+ *   - the sticky image stack — `[data-active]` on the matching slot
  *   - the inactive copy slides — `[data-inactive]` for the fade+blur
  *   - the frame's #section-name and #page-counter (bypassing the global
  *     frame-observer, which is told to skip via [data-frame-skip] on the
@@ -17,7 +16,6 @@
 const root = document.querySelector<HTMLElement>('.work-sticky');
 
 if (root) {
-  const counterItems = Array.from(root.querySelectorAll<HTMLElement>('.counter li'));
   const slides = Array.from(root.querySelectorAll<HTMLElement>('.copy-slide'));
   const slots = Array.from(root.querySelectorAll<HTMLElement>('.img-slot'));
   const sectionEl = document.getElementById('section-name');
@@ -40,10 +38,6 @@ if (root) {
     if (idx === active) return;
     active = idx;
 
-    for (let i = 0; i < counterItems.length; i++) {
-      if (i === idx) counterItems[i].setAttribute('aria-current', 'true');
-      else counterItems[i].removeAttribute('aria-current');
-    }
     for (let i = 0; i < slots.length; i++) {
       if (i === idx) slots[i].setAttribute('data-active', 'true');
       else slots[i].removeAttribute('data-active');

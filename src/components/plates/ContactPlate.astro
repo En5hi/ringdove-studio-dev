@@ -53,15 +53,15 @@ import { SITE } from '../../lib/site';
     margin-bottom: 32px;
   }
 
-  /* The single focal point — email at hero scale. Italic as the only
-     emphasis device, matching the studio rule. */
+  /* The single focal point — email at large but not overwhelming scale.
+     Italic as the only emphasis device, matching the studio rule. */
   .email {
     font-family: var(--display);
     font-weight: 200;
     font-style: italic;
-    font-size: clamp(64px, 9.6vw, 168px);
+    font-size: clamp(48px, 7vw, 112px);
     line-height: 0.96;
-    letter-spacing: -0.035em;
+    letter-spacing: -0.03em;
     color: var(--ink);
     text-decoration: none;
     text-align: center;
@@ -71,12 +71,12 @@ import { SITE } from '../../lib/site';
   }
   .email:hover {
     color: var(--ink-soft);
-    letter-spacing: -0.025em;
+    letter-spacing: -0.02em;
   }
 
   .meta {
     width: 100%;
-    max-width: 720px;
+    max-width: 640px;
     margin: 56px 0 0;
     padding: 28px 0 0;
     border-top: 1px solid var(--rule-soft);
@@ -88,6 +88,8 @@ import { SITE } from '../../lib/site';
   .meta li {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    text-align: center;
     gap: 8px;
   }
   .lbl {
